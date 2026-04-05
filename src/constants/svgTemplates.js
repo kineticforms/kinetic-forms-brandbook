@@ -1,10 +1,10 @@
 const SVG_NS = 'xmlns="http://www.w3.org/2000/svg"';
 const FONT_MARK =
-  'font-family="system-ui, -apple-system, sans-serif" font-size="600" font-weight="900"';
+  'font-family="General Sans, system-ui, sans-serif" font-size="600" font-weight="900"';
 const FONT_ICON =
-  'font-family="system-ui, -apple-system, sans-serif" font-size="180" font-weight="900"';
+  'font-family="General Sans, system-ui, sans-serif" font-size="180" font-weight="900"';
 const FONT_TEXT =
-  'font-family="system-ui, -apple-system, sans-serif" font-size="160" font-weight="700"';
+  'font-family="General Sans, system-ui, sans-serif" font-size="160" font-weight="700"';
 
 const markSvg = (fill) =>
   `<svg ${SVG_NS} viewBox="0 0 1024 1024">` +

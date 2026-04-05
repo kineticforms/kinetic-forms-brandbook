@@ -21,7 +21,7 @@ export default function TypographyView() {
             <p className="text-xs font-bold tracking-widest uppercase text-zinc-400 mb-2">
               Primary Typeface
             </p>
-            <h3 className="text-5xl font-medium">System Sans</h3>
+            <h3 className="text-5xl font-medium">General Sans</h3>
           </div>
           <div className="p-8 bg-white border border-zinc-200 rounded-2xl flex flex-wrap gap-4 text-3xl md:text-4xl">
             <span className="font-light">Aa</span>
@@ -31,7 +31,7 @@ export default function TypographyView() {
             <span className="font-extrabold">Ee</span>
           </div>
           <p className="text-zinc-500 text-sm leading-relaxed">
-            System Sans acts as our universal voice. Unopinionated yet distinct,
+            General Sans acts as our universal voice. Unopinionated yet distinct,
             it ensures perfect clarity and focus, stripping away cognitive load
             to let the content breathe.
           </p>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { generateRasterImage, generatePaddedSocialImage } from "../lib/imageUtils";
 import { downloadBlob } from "../lib/downloadFile";
+import { getAllSourceFiles } from "../lib/sourceFiles";
 import {
   POS_LOGO_TRANSPARENT,
   NEG_LOGO_TRANSPARENT,
@@ -54,10 +55,10 @@ export function useDownloads() {
       withTextFolder.folder("svg").file("kinetic-forms-logo-text-positive.svg", POS_LOGO_TEXT);
       withTextFolder.folder("svg").file("kinetic-forms-logo-text-negative.svg", NEG_LOGO_TEXT);
 
-      const processAssetBatch = async (folder, svg, baseName, w, h, jpegBg) => {
+      const processAssetBatch = async (folder, svg, baseName, w, h, jpgBg) => {
         folder.folder("png").file(`${baseName}-${w}x${h}.png`, await generateRasterImage(svg, w, h, "png"));
         folder.folder("webp").file(`${baseName}-${w}x${h}.webp`, await generateRasterImage(svg, w, h, "webp"));
-        folder.folder("jpeg").file(`${baseName}-${w}x${h}.jpg`, await generateRasterImage(svg, w, h, "jpeg", jpegBg));
+        folder.folder("jpg").file(`${baseName}-${w}x${h}.jpg`, await generateRasterImage(svg, w, h, "jpeg", jpgBg));
       };
 
       // Mark sizes
@@ -69,12 +70,33 @@ export function useDownloads() {
         await processAssetBatch(logoFolder, NEG_LOGO, "kinetic-forms-logo-negative", size, size, "#000000");
       }
 
-      // Lockup sizes
+      // Lockup sizes — rectangular
       const lockupWidths = [150, 300, 600, 1200, 2400, 4800, 7680];
+      const rectJpgFolder = withTextFolder.folder("jpg").folder("rectangular");
       for (const w of lockupWidths) {
         const h = Math.round(w / 3.125);
-        await processAssetBatch(withTextFolder, POS_LOGO_TEXT, "kinetic-forms-logo-text-positive", w, h, "#ffffff");
-        await processAssetBatch(withTextFolder, NEG_LOGO_TEXT, "kinetic-forms-logo-text-negative", w, h, "#000000");
+        withTextFolder.folder("png").file(`kinetic-forms-logo-text-positive-${w}x${h}.png`, await generateRasterImage(POS_LOGO_TEXT, w, h, "png"));
+        withTextFolder.folder("png").file(`kinetic-forms-logo-text-negative-${w}x${h}.png`, await generateRasterImage(NEG_LOGO_TEXT, w, h, "png"));
+        withTextFolder.folder("webp").file(`kinetic-forms-logo-text-positive-${w}x${h}.webp`, await generateRasterImage(POS_LOGO_TEXT, w, h, "webp"));
+        withTextFolder.folder("webp").file(`kinetic-forms-logo-text-negative-${w}x${h}.webp`, await generateRasterImage(NEG_LOGO_TEXT, w, h, "webp"));
+        rectJpgFolder.file(`kinetic-forms-logo-text-positive-${w}x${h}.jpg`, await generateRasterImage(POS_LOGO_TEXT, w, h, "jpeg", "#ffffff"));
+        rectJpgFolder.file(`kinetic-forms-logo-text-negative-${w}x${h}.jpg`, await generateRasterImage(NEG_LOGO_TEXT, w, h, "jpeg", "#000000"));
+      }
+
+      // Lockup sizes — square (text centered in square canvas)
+      const squareJpgFolder = withTextFolder.folder("jpg").folder("square");
+      const squareSizes = [512, 1024, 2048, 4096, 7680];
+      for (const size of squareSizes) {
+        const drawW = Math.round(size * 0.7);
+        const drawH = Math.round(drawW / 3.125);
+        squareJpgFolder.file(
+          `kinetic-forms-logo-text-square-positive-${size}x${size}.jpg`,
+          await generatePaddedSocialImage(POS_LOGO_TEXT, size, size, drawW, drawH, "jpeg", "#ffffff"),
+        );
+        squareJpgFolder.file(
+          `kinetic-forms-logo-text-square-negative-${size}x${size}.jpg`,
+          await generatePaddedSocialImage(NEG_LOGO_TEXT, size, size, drawW, drawH, "jpeg", "#000000"),
+        );
       }
 
       // Social & app icons
@@ -165,145 +187,10 @@ export function useDownloads() {
       const { default: JSZip } = await import("https://esm.sh/jszip");
       const zip = new JSZip();
 
-      zip.file(
-        "package.json",
-        JSON.stringify(
-          {
-            name: "kinetic-forms-brandbook",
-            private: true,
-            version: "1.0.0",
-            type: "module",
-            scripts: { dev: "vite", build: "vite build", preview: "vite preview" },
-            dependencies: { "lucide-react": "^0.263.1", react: "^18.2.0", "react-dom": "^18.2.0" },
-            devDependencies: {
-              "@types/react": "^18.2.15",
-              "@types/react-dom": "^18.2.7",
-              "@vitejs/plugin-react": "^4.0.3",
-              autoprefixer: "^10.4.14",
-              postcss: "^8.4.27",
-              tailwindcss: "^3.3.3",
-              vite: "^4.4.5",
-            },
-          },
-          null,
-          2,
-        ),
-      );
-
-      zip.file(
-        "vite.config.js",
-        [
-          "import { defineConfig } from 'vite';",
-          "import react from '@vitejs/plugin-react';",
-          "",
-          "export default defineConfig({",
-          "  plugins: [react()],",
-          "});",
-        ].join("\n"),
-      );
-      zip.file(
-        "tailwind.config.js",
-        [
-          "/** @type {import('tailwindcss').Config} */",
-          "export default {",
-          '  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],',
-          "  theme: { extend: {} },",
-          "  plugins: [],",
-          "}",
-        ].join("\n"),
-      );
-      zip.file(
-        "postcss.config.js",
-        ["export default {", "  plugins: {", "    tailwindcss: {},", "    autoprefixer: {},", "  },", "}"].join("\n"),
-      );
-      zip.file(
-        "index.html",
-        [
-          "<!DOCTYPE html>",
-          '<html lang="en">',
-          "  <head>",
-          '    <meta charset="UTF-8" />',
-          '    <meta name="viewport" content="width=device-width, initial-scale=1.0" />',
-          "    <title>Kinetic Forms Brandbook</title>",
-          "  </head>",
-          "  <body>",
-          '    <div id="root"></div>',
-          '    <script type="module" src="/src/main.jsx"></script>',
-          "  </body>",
-          "</html>",
-        ].join("\n"),
-      );
-
-      zip.file(
-        "README.md",
-        `# Kinetic Forms Brandbook Source Code
-
-This repository contains the interactive React source code for the Kinetic Forms Brand Guidelines.
-
-## Running Locally for Development
-
-1. Install dependencies:
-   \`\`\`bash
-   npm install
-   \`\`\`
-2. Start the development server:
-   \`\`\`bash
-   npm run dev
-   \`\`\`
-
-## Building for Production (Static Hosting)
-
-To generate a static bundled HTML version for deployment on static hosting providers (Vercel, Netlify, AWS S3, GitHub Pages):
-
-1. Run the build command:
-   \`\`\`bash
-   npm run build
-   \`\`\`
-2. The generated static files will be located in the \`dist\` directory. You can upload this entire folder directly to your hosting provider.
-`,
-      );
-
-      const srcFolder = zip.folder("src");
-      srcFolder.file(
-        "main.jsx",
-        [
-          "import React from 'react'",
-          "import ReactDOM from 'react-dom/client'",
-          "import App from './App.jsx'",
-          "import './index.css'",
-          "",
-          "ReactDOM.createRoot(document.getElementById('root')).render(",
-          "  <React.StrictMode>",
-          "    <App />",
-          "  </React.StrictMode>,",
-          ")",
-        ].join("\n"),
-      );
-      srcFolder.file(
-        "index.css",
-        [
-          "@tailwind base;",
-          "@tailwind components;",
-          "@tailwind utilities;",
-          "",
-          "body {",
-          "  @apply bg-zinc-50 text-zinc-900 font-sans selection:bg-zinc-200;",
-          "}",
-          "",
-          ".hide-scrollbar::-webkit-scrollbar {",
-          "  display: none;",
-          "}",
-          ".hide-scrollbar {",
-          "  -ms-overflow-style: none;",
-          "  scrollbar-width: none;",
-          "}",
-        ].join("\n"),
-      );
-
-      // Self-contained single-file App.jsx for the export
-      // Uses the bundle script output if available, otherwise falls back to inline version
-      const { getExportAppJsx } = await import("../constants/exportAppJsx.js");
-      srcFolder.file("App.jsx", getExportAppJsx());
+      const sourceFiles = getAllSourceFiles();
+      for (const [filePath, content] of Object.entries(sourceFiles)) {
+        zip.file(filePath, content);
+      }
 
       const zipBlob = await zip.generateAsync({ type: "blob" });
       downloadBlob(zipBlob, "kinetic-brandbook-source.zip");

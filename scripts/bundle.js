@@ -67,7 +67,7 @@ const brandConstants = extractBody(read("constants/brand.js"));
 const svgTemplates = extractBody(read("constants/svgTemplates.js"));
 const imageUtils = extractBody(read("lib/imageUtils.js"));
 const downloadFile = extractBody(read("lib/downloadFile.js"));
-const exportAppJsx = extractBody(read("constants/exportAppJsx.js"));
+const sourceFiles = extractBody(read("lib/sourceFiles.js"));
 
 const typewriterHeading = extractBody(read("components/TypewriterHeading.jsx"));
 const canvasWave = extractBody(read("components/CanvasWave.jsx"));
@@ -106,8 +106,8 @@ ${brandConstants}
 // --- Constants: SVG Templates ---
 ${svgTemplates}
 
-// --- Constants: Export App JSX ---
-${exportAppJsx}
+// --- Lib: Source Files ---
+${sourceFiles}
 
 // --- Lib: Image Utils ---
 ${imageUtils}
