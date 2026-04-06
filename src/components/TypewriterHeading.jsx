@@ -1,11 +1,5 @@
 import { useState, useEffect } from "react";
-
-const PHRASES = [
-  "Intelligence Evolved.",
-  "Forms in Motion.",
-  "Let's Build.",
-  "Tomorrow Together.",
-];
+import { BRAND } from "../constants/brand";
 
 export default function TypewriterHeading() {
   const [text, setText] = useState("");
@@ -15,8 +9,9 @@ export default function TypewriterHeading() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const i = loopNum % PHRASES.length;
-      const fullText = PHRASES[i];
+      const phrases = BRAND.concept.taglines;
+      const i = loopNum % phrases.length;
+      const fullText = phrases[i];
 
       if (isDeleting) {
         setText(fullText.substring(0, text.length - 1));

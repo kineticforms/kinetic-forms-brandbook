@@ -1,3 +1,4 @@
+import { BRAND } from "../../constants/brand";
 import DownloadButton from "../DownloadButton";
 
 export default function LogoView({ downloadStatus, triggerAssetsDownload }) {
@@ -12,10 +13,7 @@ export default function LogoView({ downloadStatus, triggerAssetsDownload }) {
             Logo System
           </h2>
           <p className="text-zinc-500 text-lg leading-relaxed">
-            Our mark strips away the superfluous, leaving only pure, directed
-            energy. The Kinetic Forms identity is designed to scale effortlessly,
-            maintaining absolute clarity from a 16px favicon to a stadium
-            display.
+            {BRAND.logo.description}
           </p>
         </div>
 

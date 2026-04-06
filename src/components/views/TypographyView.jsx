@@ -1,4 +1,26 @@
+import { BRAND } from "../../constants/brand";
+
 export default function TypographyView() {
+  const typo = BRAND.typography;
+  const primary = typo.typefaces.find((t) => t.role === "primary") || typo.typefaces[0];
+  const hierarchy = typo.hierarchy;
+
+  const TRACKING_CLASS = {
+    tighter: "tracking-tighter",
+    tight: "tracking-tight",
+    normal: "",
+    wide: "tracking-wide",
+    wider: "tracking-wider",
+    widest: "tracking-widest",
+  };
+
+  const LEADING_CLASS = {
+    none: "leading-none",
+    tight: "leading-tight",
+    normal: "",
+    relaxed: "leading-relaxed",
+  };
+
   return (
     <section
       id="view-typography"
@@ -9,9 +31,7 @@ export default function TypographyView() {
           Typography
         </h2>
         <p className="text-zinc-500 text-lg leading-relaxed">
-          Our typography is the anchor to our motion. We utilize crisp, highly
-          legible neo-grotesque sans-serifs to provide a stable, clean structure
-          that allows our dynamic interactions to shine.
+          {typo.description}
         </p>
       </div>
 
@@ -21,7 +41,7 @@ export default function TypographyView() {
             <p className="text-xs font-bold tracking-widest uppercase text-zinc-400 mb-2">
               Primary Typeface
             </p>
-            <h3 className="text-5xl font-medium">General Sans</h3>
+            <h3 className="text-5xl font-medium">{primary.name}</h3>
           </div>
           <div className="p-8 bg-white border border-zinc-200 rounded-2xl flex flex-wrap gap-4 text-3xl md:text-4xl">
             <span className="font-light">Aa</span>
@@ -31,9 +51,7 @@ export default function TypographyView() {
             <span className="font-extrabold">Ee</span>
           </div>
           <p className="text-zinc-500 text-sm leading-relaxed">
-            General Sans acts as our universal voice. Unopinionated yet distinct,
-            it ensures perfect clarity and focus, stripping away cognitive load
-            to let the content breathe.
+            {primary.description}
           </p>
         </div>
 
@@ -41,37 +59,39 @@ export default function TypographyView() {
           <p className="text-xs font-bold tracking-widest uppercase text-zinc-400 mb-2 border-b border-zinc-200 pb-4">
             Type Hierarchy
           </p>
-          <div>
-            <div className="flex justify-between items-end mb-2 text-xs text-zinc-400">
-              <span>Display / H1</span>
-              <span>Tracking: Tighter</span>
-            </div>
-            <h1 className="text-6xl font-medium tracking-tighter leading-none">
-              Velocity by design
-            </h1>
-          </div>
-          <div>
-            <div className="flex justify-between items-end mb-2 text-xs text-zinc-400">
-              <span>Heading / H2</span>
-              <span>Tracking: Tight</span>
-            </div>
-            <h2 className="text-4xl font-medium tracking-tight leading-none">
-              Intelligent forms for modern teams
-            </h2>
-          </div>
-          <div>
-            <div className="flex justify-between items-end mb-2 text-xs text-zinc-400">
-              <span>Body Copy / P</span>
-              <span>Tracking: Normal</span>
-            </div>
-            <p className="text-lg text-zinc-600 leading-relaxed">
-              We craft digital spaces where momentum feels effortless. Every
-              micro-interaction is deliberate, every layout meticulously
-              considered. We believe that true technological sophistication
-              shouldn't feel mechanical—it should feel like an extension of your
-              own thought process.
-            </p>
-          </div>
+          {hierarchy.map((level, i) => {
+            const trackingCls = TRACKING_CLASS[level.tracking] || "";
+            const leadingCls = LEADING_CLASS[level.leading] || "";
+            const sizeClass =
+              i === 0 ? "text-6xl" : i === 1 ? "text-4xl" : "text-lg";
+            const isBody = i === hierarchy.length - 1;
+
+            return (
+              <div key={level.level}>
+                <div className="flex justify-between items-end mb-2 text-xs text-zinc-400">
+                  <span>{level.level}</span>
+                  <span>
+                    Tracking:{" "}
+                    {level.tracking.charAt(0).toUpperCase() +
+                      level.tracking.slice(1)}
+                  </span>
+                </div>
+                {isBody ? (
+                  <p
+                    className={`${sizeClass} font-medium ${trackingCls} ${leadingCls} text-zinc-600`}
+                  >
+                    {level.sample}
+                  </p>
+                ) : (
+                  <h1
+                    className={`${sizeClass} font-medium ${trackingCls} ${leadingCls}`}
+                  >
+                    {level.sample}
+                  </h1>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

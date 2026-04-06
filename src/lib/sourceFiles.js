@@ -11,6 +11,7 @@ import postcssConfig from "/postcss.config.js?raw";
 import indexHtml from "/index.html?raw";
 import gitignore from "/.gitignore?raw";
 import readme from "/README.md?raw";
+import brandMd from "/BRAND.md?raw";
 
 // Scripts
 import bundleJs from "/scripts/bundle.js?raw";
@@ -22,6 +23,7 @@ import svgTemplatesJs from "/src/constants/svgTemplates.js?raw";
 // src/ — lib
 import downloadFileJs from "/src/lib/downloadFile.js?raw";
 import imageUtilsJs from "/src/lib/imageUtils.js?raw";
+import parseBrandJs from "/src/lib/parseBrand.js?raw";
 import sourceFilesJs from "/src/lib/sourceFiles.js?raw";
 
 // src/ — hooks
@@ -56,6 +58,7 @@ export function getAllSourceFiles() {
     "index.html": indexHtml,
     ".gitignore": gitignore,
     "README.md": readme,
+    "BRAND.md": brandMd,
 
     // Scripts
     "scripts/bundle.js": bundleJs,
@@ -67,6 +70,7 @@ export function getAllSourceFiles() {
     // src/lib
     "src/lib/downloadFile.js": downloadFileJs,
     "src/lib/imageUtils.js": imageUtilsJs,
+    "src/lib/parseBrand.js": parseBrandJs,
     "src/lib/sourceFiles.js": sourceFilesJs,
 
     // src/hooks

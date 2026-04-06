@@ -17,6 +17,7 @@ export default function App() {
     triggerAssetsDownload,
     triggerPdfDownload,
     triggerSourceDownload,
+    triggerMarkdownDownload,
   } = useDownloads();
 
   if (isPrinting) {
@@ -43,6 +44,7 @@ export default function App() {
             downloadStatus={downloadStatus}
             triggerPdfDownload={triggerPdfDownload}
             triggerSourceDownload={triggerSourceDownload}
+            triggerMarkdownDownload={triggerMarkdownDownload}
           />
         )}
         {view === "logo" && (

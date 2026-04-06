@@ -1,13 +1,13 @@
-import { ArrowRight } from "lucide-react";
-import { BRAND_PILLARS } from "../../constants/brand";
+import { ArrowRight, FileCode2, FileText } from "lucide-react";
+import { BRAND, BRAND_PILLARS } from "../../constants/brand";
 import TypewriterHeading from "../TypewriterHeading";
 import DownloadButton from "../DownloadButton";
-import { FileCode2 } from "lucide-react";
 
 export default function ConceptView({
   downloadStatus,
   triggerPdfDownload,
   triggerSourceDownload,
+  triggerMarkdownDownload,
 }) {
   return (
     <section
@@ -17,10 +17,7 @@ export default function ConceptView({
       <div className="space-y-6">
         <TypewriterHeading />
         <p className="max-w-xl text-zinc-500 text-lg leading-relaxed">
-          Kinetic Forms is an AI-native design system built for velocity. We
-          blend relentless momentum with considered, human-centric
-          details—creating digital experiences that feel alive, intuitive, and
-          relentlessly forward-leaning.
+          {BRAND.concept.description}
         </p>
 
         <div className="pt-6 flex flex-col sm:flex-row gap-4 hide-in-export">
@@ -40,6 +37,15 @@ export default function ConceptView({
             successLabel="Exported"
             variant="secondary"
             idleIcon={FileCode2}
+          />
+          <DownloadButton
+            status={downloadStatus.markdown}
+            onClick={triggerMarkdownDownload}
+            idleLabel="Export Brand Spec (.md)"
+            downloadingLabel="Exporting..."
+            successLabel="Exported"
+            variant="secondary"
+            idleIcon={FileText}
           />
         </div>
       </div>
@@ -79,8 +85,8 @@ export default function ConceptView({
           <div className="space-y-6">
             <div className="h-1 w-12 bg-black"></div>
             <h4 className="text-4xl md:text-5xl font-medium tracking-tight leading-tight">
-              Intelligence <br />
-              in Motion.
+              {BRAND.brand.tagline.split(" ").slice(0, -1).join(" ")} <br />
+              {BRAND.brand.tagline.split(" ").slice(-1)[0]}
             </h4>
             <p className="text-zinc-500 text-base max-w-sm">
               Subtle geometric offset patterns help give a sense of intrigue,

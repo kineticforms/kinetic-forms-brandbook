@@ -2,6 +2,7 @@ import { useState } from "react";
 import { generateRasterImage, generatePaddedSocialImage } from "../lib/imageUtils";
 import { downloadBlob } from "../lib/downloadFile";
 import { getAllSourceFiles } from "../lib/sourceFiles";
+import brandRaw from "/BRAND.md?raw";
 import {
   POS_LOGO_TRANSPARENT,
   NEG_LOGO_TRANSPARENT,
@@ -32,6 +33,7 @@ export function useDownloads() {
     pdf: "idle",
     source: "idle",
     assets: "idle",
+    markdown: "idle",
   });
   const [isPrinting, setIsPrinting] = useState(false);
 
@@ -203,11 +205,25 @@ export function useDownloads() {
     }
   };
 
+  const triggerMarkdownDownload = () => {
+    setStatus((prev) => ({ ...prev, markdown: "downloading" }));
+    try {
+      const blob = new Blob([brandRaw], { type: "text/markdown;charset=utf-8" });
+      downloadBlob(blob, "BRAND.md");
+      setStatus((prev) => ({ ...prev, markdown: "success" }));
+    } catch (error) {
+      console.error("Markdown export failed:", error);
+    } finally {
+      resetAfter(setStatus, "markdown", 3000);
+    }
+  };
+
   return {
     downloadStatus: status,
     isPrinting,
     triggerAssetsDownload,
     triggerPdfDownload,
     triggerSourceDownload,
+    triggerMarkdownDownload,
   };
 }

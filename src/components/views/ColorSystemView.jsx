@@ -1,6 +1,8 @@
-import { BRAND_COLORS } from "../../constants/brand";
+import { BRAND, BRAND_COLORS } from "../../constants/brand";
 
 export default function ColorSystemView() {
+  const colors = BRAND.colors;
+
   return (
     <section
       id="view-colors"
@@ -11,9 +13,7 @@ export default function ColorSystemView() {
           Color System
         </h2>
         <p className="text-zinc-500 text-lg leading-relaxed">
-          Our palette is unapologetically minimalist. By constraining our colors
-          to high-contrast monochromes, we eliminate visual noise, direct focus,
-          and establish a premium, modern aesthetic.
+          {colors.description}
         </p>
       </div>
 
@@ -43,12 +43,10 @@ export default function ColorSystemView() {
       <div className="mt-16 bg-black rounded-3xl p-12 md:p-24 text-white overflow-hidden relative">
         <div className="relative z-10 max-w-lg space-y-6">
           <h3 className="text-3xl md:text-5xl font-medium tracking-tighter">
-            Maximum Contrast.
+            {colors.contrast.title}
           </h3>
           <p className="text-zinc-400 text-lg">
-            Binary precision meets bold execution. Our core visual language
-            relies on stark white against deep black, reflecting our AI-native
-            foundation while creating striking, undeniable clarity.
+            {colors.contrast.description}
           </p>
         </div>
         <div className="absolute right-0 top-0 w-full h-full md:w-1/2 opacity-20 pointer-events-none">
