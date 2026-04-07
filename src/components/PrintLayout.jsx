@@ -1,10 +1,12 @@
-import { Zap, Layers, Maximize, Loader2 } from "lucide-react";
-import { BRAND_COLORS } from "../constants/brand";
+import { Loader2, CheckCircle, XCircle } from "lucide-react";
+import { BRAND, DESIGN, DESIGN_COLORS, BRAND_PILLARS } from "../constants/brand";
 
 const PAGE_CLASS =
   "w-[1200px] h-[1697px] shrink-0 flex flex-col justify-center px-32";
 
 export default function PrintLayout() {
+  const typo = DESIGN.typography;
+
   return (
     <div className="absolute top-0 left-0 w-[1200px] bg-white text-black font-sans m-0 p-0">
       <div
@@ -26,15 +28,10 @@ export default function PrintLayout() {
           <div className="space-y-16">
             <div className="space-y-6">
               <h1 className="text-8xl font-medium tracking-tighter leading-none">
-                Intelligence
-                <br />
-                Evolved.
+                {BRAND.brand.tagline}
               </h1>
               <p className="max-w-2xl text-zinc-500 text-2xl leading-relaxed">
-                Kinetic Forms is an AI-native design system built for velocity.
-                We blend relentless momentum with considered, human-centric
-                details—creating digital experiences that feel alive, intuitive,
-                and relentlessly forward-leaning.
+                {BRAND.concept.description}
               </p>
             </div>
             <div className="space-y-8">
@@ -42,11 +39,7 @@ export default function PrintLayout() {
                 Brand Pillars
               </h2>
               <div className="grid grid-cols-3 gap-8">
-                {[
-                  { icon: Zap, title: "Velocity", desc: "Frictionless interactions and rapid visual feedback that propel users forward at the speed of thought." },
-                  { icon: Layers, title: "Flow", desc: "Seamless, intuitive pathways powered by AI, designed to adapt naturally to human behavior." },
-                  { icon: Maximize, title: "Precision", desc: "An uncompromising attention to detail, ensuring every pixel, transition, and micro-interaction is perfectly resolved." },
-                ].map((pillar, i) => (
+                {BRAND_PILLARS.map((pillar, i) => (
                   <div key={i} className="p-8 border border-zinc-200 rounded-2xl bg-white">
                     <pillar.icon className="w-8 h-8 text-black mb-6" />
                     <h3 className="font-bold text-xl mb-2">
@@ -70,10 +63,7 @@ export default function PrintLayout() {
                 Logo System
               </h2>
               <p className="text-zinc-500 text-2xl leading-relaxed">
-                Our mark strips away the superfluous, leaving only pure,
-                directed energy. The Kinetic Forms identity is designed to scale
-                effortlessly, maintaining absolute clarity from a 16px favicon to
-                a stadium display.
+                {BRAND.logo.description}
               </p>
             </div>
             <div className="space-y-12">
@@ -137,7 +127,69 @@ export default function PrintLayout() {
           </div>
         </div>
 
-        {/* Page 3: Typography */}
+        {/* Page 3: Colors */}
+        <div className={`${PAGE_CLASS} bg-[#FAFAFA]`}>
+          <div className="space-y-12">
+            <div className="space-y-6 max-w-2xl">
+              <h2 className="text-5xl font-medium tracking-tight">
+                Colors
+              </h2>
+              <p className="text-zinc-500 text-2xl leading-relaxed">
+                {DESIGN.colors.note}
+              </p>
+            </div>
+            <div>
+              <h3 className="text-sm font-bold tracking-widest uppercase text-zinc-400 mb-6">
+                Light Mode
+              </h3>
+              <div className="grid grid-cols-4 gap-4">
+                {DESIGN_COLORS.map((color, i) => (
+                  <div key={i} className="space-y-2">
+                    <div
+                      className={`aspect-[3/2] rounded-xl flex items-end p-4 ${color.border ? "border border-zinc-200" : ""}`}
+                      style={{ backgroundColor: color.hex }}
+                    >
+                      <span className={`${color.text} font-mono text-sm`}>
+                        {color.hex}
+                      </span>
+                    </div>
+                    <h4 className="font-semibold text-sm">{color.name}</h4>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {DESIGN.colors.dark.length > 0 && (
+              <div>
+                <h3 className="text-sm font-bold tracking-widest uppercase text-zinc-400 mb-6">
+                  Dark Mode
+                </h3>
+                <div className="grid grid-cols-4 gap-4">
+                  {DESIGN.colors.dark.map((color, i) => {
+                    const r = parseInt(color.hex.slice(1, 3), 16);
+                    const g = parseInt(color.hex.slice(3, 5), 16);
+                    const b = parseInt(color.hex.slice(5, 7), 16);
+                    const isLight = (r * 299 + g * 587 + b * 114) / 1000 > 128;
+                    return (
+                      <div key={i} className="space-y-2">
+                        <div
+                          className={`aspect-[3/2] rounded-xl flex items-end p-4 ${isLight ? "border border-zinc-200" : ""}`}
+                          style={{ backgroundColor: color.hex }}
+                        >
+                          <span className={`${isLight ? "text-black" : "text-white"} font-mono text-sm`}>
+                            {color.hex}
+                          </span>
+                        </div>
+                        <h4 className="font-semibold text-sm">{color.token}</h4>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Page 4: Typography */}
         <div className={`${PAGE_CLASS} bg-white`}>
           <div className="space-y-16">
             <div className="space-y-6 max-w-2xl">
@@ -145,9 +197,7 @@ export default function PrintLayout() {
                 Typography
               </h2>
               <p className="text-zinc-500 text-2xl leading-relaxed">
-                Our typography is the anchor to our motion. We utilize crisp,
-                highly legible neo-grotesque sans-serifs to provide a stable,
-                clean structure that allows our dynamic interactions to shine.
+                {typo.description}
               </p>
             </div>
             <div className="grid grid-cols-2 gap-16 border-t border-zinc-200 pt-16">
@@ -157,7 +207,7 @@ export default function PrintLayout() {
                     Primary Typeface
                   </p>
                   <h3 className="text-6xl font-medium">
-                    General Sans
+                    {typo.fonts.headline || "General Sans"}
                   </h3>
                 </div>
                 <div className="p-8 bg-[#fafafa] border border-zinc-200 rounded-2xl flex flex-wrap gap-6 text-5xl">
@@ -167,100 +217,83 @@ export default function PrintLayout() {
                   <span className="font-bold">Dd</span>
                   <span className="font-extrabold">Ee</span>
                 </div>
-                <p className="text-zinc-500 text-xl leading-relaxed">
-                  General Sans acts as our universal voice. Unopinionated yet
-                  distinct, it ensures perfect clarity and focus, stripping away
-                  cognitive load to let the content breathe.
-                </p>
               </div>
               <div className="space-y-12">
                 <p className="text-sm font-bold tracking-widest uppercase text-zinc-400 mb-2 border-b border-zinc-200 pb-4">
                   Type Hierarchy
                 </p>
-                <div>
-                  <div className="flex justify-between items-end mb-4 text-sm text-zinc-400">
-                    <span>Display / H1</span>
-                    <span>Tracking: Tighter</span>
+                {typo.hierarchy.map((level) => (
+                  <div key={level.level}>
+                    <div className="flex justify-between items-end mb-4 text-sm text-zinc-400">
+                      <span>{level.level}</span>
+                      <span>{level.weight}</span>
+                    </div>
+                    <h1
+                      className={`text-4xl font-medium ${level.tracking === "tighter" ? "tracking-tighter" : level.tracking === "tight" ? "tracking-tight" : ""} leading-none`}
+                    >
+                      {level.level.includes("H1")
+                        ? "Velocity by design"
+                        : level.level.includes("H2")
+                          ? "Intelligent forms"
+                          : level.level.includes("Label")
+                            ? "SECTION LABEL"
+                            : "Body text sample"}
+                    </h1>
                   </div>
-                  <h1 className="text-7xl font-medium tracking-tighter leading-none">
-                    Velocity by design
-                  </h1>
-                </div>
-                <div>
-                  <div className="flex justify-between items-end mb-4 text-sm text-zinc-400">
-                    <span>Heading / H2</span>
-                    <span>Tracking: Tight</span>
-                  </div>
-                  <h2 className="text-5xl font-medium tracking-tight leading-none">
-                    Intelligent forms for modern teams
-                  </h2>
-                </div>
-                <div>
-                  <div className="flex justify-between items-end mb-4 text-sm text-zinc-400">
-                    <span>Body Copy / P</span>
-                    <span>Tracking: Normal</span>
-                  </div>
-                  <p className="text-2xl text-zinc-600 leading-relaxed">
-                    We craft digital spaces where momentum feels effortless.
-                    Every micro-interaction is deliberate, every layout
-                    meticulously considered. We believe that true technological
-                    sophistication shouldn't feel mechanical—it should feel like
-                    an extension of your own thought process.
-                  </p>
-                </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Page 4: Colors */}
+        {/* Page 5: Design System (Elevation + Components + Guidelines) */}
         <div className={`${PAGE_CLASS} bg-[#FAFAFA]`}>
-          <div className="space-y-16">
+          <div className="space-y-12">
             <div className="space-y-6 max-w-2xl">
               <h2 className="text-5xl font-medium tracking-tight">
-                Color System
+                Design System
               </h2>
-              <p className="text-zinc-500 text-2xl leading-relaxed">
-                Our palette is unapologetically minimalist. By constraining our
-                colors to high-contrast monochromes, we eliminate visual noise,
-                direct focus, and establish a premium, modern aesthetic.
+              <p className="text-zinc-500 text-xl leading-relaxed">
+                {DESIGN.elevation.description}
               </p>
             </div>
-            <div className="grid grid-cols-5 gap-6 pt-8">
-              {BRAND_COLORS.map((color, i) => (
-                <div key={i} className="space-y-4">
-                  <div
-                    className={`aspect-square rounded-2xl flex items-end p-6 ${color.border ? "border border-zinc-200" : ""}`}
-                    style={{ backgroundColor: color.hex }}
-                  >
-                    <span
-                      className={`${color.text} font-mono text-lg`}
-                    >
-                      {color.hex}
-                    </span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-xl">
-                      {color.name}
-                    </h4>
-                    <p className="text-sm text-zinc-500 font-mono uppercase mt-1">
-                      {color.hex}
+            <div className="space-y-4">
+              <h3 className="text-sm font-bold tracking-widest uppercase text-zinc-400">
+                Components
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                {DESIGN.components.map((comp, i) => (
+                  <div key={i} className="p-5 border border-zinc-200 rounded-2xl bg-white">
+                    <h4 className="font-bold mb-1">{comp.name}</h4>
+                    <p className="text-zinc-500 text-xs leading-relaxed">
+                      {comp.description}
                     </p>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-            <div className="mt-16 bg-black rounded-3xl p-24 text-white overflow-hidden relative">
-              <div className="relative z-10 max-w-xl space-y-6">
-                <h3 className="text-5xl font-medium tracking-tighter">
-                  Maximum Contrast.
+            <div className="grid grid-cols-2 gap-8 pt-4">
+              <div className="space-y-3">
+                <h3 className="text-sm font-bold tracking-widest uppercase text-emerald-600 flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4" /> Do
                 </h3>
-                <p className="text-zinc-400 text-2xl leading-relaxed">
-                  Binary precision meets bold execution. Our core visual language
-                  relies on stark white against deep black, reflecting our
-                  AI-native foundation while creating striking, undeniable
-                  clarity.
-                </p>
+                {DESIGN.dosAndDonts.dos.map((rule, i) => (
+                  <div key={i} className="flex gap-2 items-start p-3 bg-emerald-50 border border-emerald-200 rounded-lg">
+                    <CheckCircle className="w-3 h-3 text-emerald-600 mt-0.5 shrink-0" />
+                    <p className="text-xs leading-relaxed">{rule}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="space-y-3">
+                <h3 className="text-sm font-bold tracking-widest uppercase text-red-600 flex items-center gap-2">
+                  <XCircle className="w-4 h-4" /> Don't
+                </h3>
+                {DESIGN.dosAndDonts.donts.map((rule, i) => (
+                  <div key={i} className="flex gap-2 items-start p-3 bg-red-50 border border-red-200 rounded-lg">
+                    <XCircle className="w-3 h-3 text-red-600 mt-0.5 shrink-0" />
+                    <p className="text-xs leading-relaxed">{rule}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

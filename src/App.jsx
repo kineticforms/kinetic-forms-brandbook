@@ -6,8 +6,9 @@ import Footer from "./components/Footer";
 import PrintLayout from "./components/PrintLayout";
 import ConceptView from "./components/views/ConceptView";
 import LogoView from "./components/views/LogoView";
-import TypographyView from "./components/views/TypographyView";
 import ColorSystemView from "./components/views/ColorSystemView";
+import TypographyView from "./components/views/TypographyView";
+import SystemView from "./components/views/SystemView";
 
 export default function App() {
   const [view, setView] = useState("concept");
@@ -45,6 +46,7 @@ export default function App() {
             triggerPdfDownload={triggerPdfDownload}
             triggerSourceDownload={triggerSourceDownload}
             triggerMarkdownDownload={triggerMarkdownDownload}
+            onNavigate={setView}
           />
         )}
         {view === "logo" && (
@@ -53,8 +55,9 @@ export default function App() {
             triggerAssetsDownload={triggerAssetsDownload}
           />
         )}
-        {view === "typography" && <TypographyView />}
         {view === "colors" && <ColorSystemView />}
+        {view === "typography" && <TypographyView />}
+        {view === "system" && <SystemView />}
       </main>
 
       <Footer />

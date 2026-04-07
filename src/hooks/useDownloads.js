@@ -3,6 +3,7 @@ import { generateRasterImage, generatePaddedSocialImage } from "../lib/imageUtil
 import { downloadBlob } from "../lib/downloadFile";
 import { getAllSourceFiles } from "../lib/sourceFiles";
 import brandRaw from "/BRAND.md?raw";
+import designRaw from "/DESIGN.md?raw";
 import {
   POS_LOGO_TRANSPARENT,
   NEG_LOGO_TRANSPARENT,
@@ -205,11 +206,15 @@ export function useDownloads() {
     }
   };
 
-  const triggerMarkdownDownload = () => {
+  const triggerMarkdownDownload = async () => {
     setStatus((prev) => ({ ...prev, markdown: "downloading" }));
     try {
-      const blob = new Blob([brandRaw], { type: "text/markdown;charset=utf-8" });
-      downloadBlob(blob, "BRAND.md");
+      const { default: JSZip } = await import("https://esm.sh/jszip");
+      const zip = new JSZip();
+      zip.file("BRAND.md", brandRaw);
+      zip.file("DESIGN.md", designRaw);
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      downloadBlob(zipBlob, "kinetic-forms-brand-spec.zip");
       setStatus((prev) => ({ ...prev, markdown: "success" }));
     } catch (error) {
       console.error("Markdown export failed:", error);

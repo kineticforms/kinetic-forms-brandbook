@@ -4,8 +4,9 @@ brand:
   tagline: "Intelligence in Motion."
   version: "1.0.0"
   schema: "brand.md/1.0"
-  updated: "2026-04-05"
+  updated: "2026-04-06"
   confidential: true
+  design_system: "DESIGN.md"
 
 concept:
   taglines:
@@ -13,13 +14,13 @@ concept:
     - "Move Faster."
     - "Let's Build."
     - "Tomorrow Together."
-  description: "Kinetic Forms is an AI-native design system built for velocity. We blend relentless momentum with considered, human-centric details -- creating digital experiences that feel alive, intuitive, and relentlessly forward-leaning."
+  description: "Kinetic Forms is an AI-native software consultancy built for velocity. We blend relentless momentum with considered, human-centric details -- creating digital experiences that feel alive, intuitive, and relentlessly forward-leaning."
   pillars:
     - title: "Velocity"
-      description: "Frictionless interactions and rapid visual feedback that propel users forward at the speed of thought."
+      description: "The world is now moving faster than anyone ever thought possible. You need to move with it. We can help."
       icon: "zap"
-    - title: "Flow"
-      description: "Seamless, intuitive pathways powered by AI, designed to adapt naturally to human behavior."
+    - title: "Personality"
+      description: "Every experience should feel personal and deeply human. Delight is not an afterthought. It's core to everything we build."
       icon: "layers"
     - title: "Precision"
       description: "An uncompromising attention to detail, ensuring every pixel, transition, and micro-interaction is perfectly resolved."
@@ -43,92 +44,112 @@ logo:
         positive: "assets/logo/mark-positive.svg"
         negative: "assets/logo/mark-negative.svg"
 
-typography:
-  description: "Our typography is the anchor to our motion. We utilize crisp, highly legible neo-grotesque sans-serifs to provide a stable, clean structure that allows our dynamic interactions to shine."
-  typefaces:
-    - name: "General Sans"
-      role: "primary"
-      source: "https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700,800&display=swap"
-      weights: [300, 400, 500, 600, 700, 800]
-      fallback: "ui-sans-serif, system-ui, -apple-system, sans-serif"
-      description: "General Sans acts as our universal voice. Unopinionated yet distinct, it ensures perfect clarity and focus, stripping away cognitive load to let the content breathe."
-  hierarchy:
-    - level: "Display / H1"
-      typeface: "General Sans"
-      weight: 500
-      tracking: "tighter"
-      leading: "none"
-      sample: "Velocity by design"
-    - level: "Heading / H2"
-      typeface: "General Sans"
-      weight: 500
-      tracking: "tight"
-      leading: "none"
-      sample: "Intelligent forms for modern teams"
-    - level: "Body / P"
-      typeface: "General Sans"
-      weight: 400
-      tracking: "normal"
-      leading: "relaxed"
-      sample: "We craft digital spaces where momentum feels effortless. Every micro-interaction is deliberate, every layout meticulously considered. We believe that true technological sophistication shouldn't feel mechanical -- it should feel like an extension of your own thought process."
+voice:
+  description: "Our voice is confident without being arrogant, technical without being cold, and concise without being terse. We speak like a sharp colleague who respects your time."
+  attributes:
+    - "Confident"
+    - "Direct"
+    - "Technical"
+    - "Human"
+    - "Forward-leaning"
+  principles:
+    - title: "Lead with clarity"
+      description: "Say it plainly first. If it needs nuance, add it after — never instead of — the clear statement. Jargon is fine when it's precise; avoid it when it's a crutch."
+    - title: "Respect the reader's intelligence"
+      description: "Don't over-explain. Our audience builds things — they don't need hand-holding, they need the right information at the right density."
+    - title: "Momentum in every sentence"
+      description: "Short sentences create pace. Long ones build depth. Alternate them. Never let prose feel static. The brand moves — so should the writing."
+    - title: "Warmth through specificity"
+      description: "Generic warmth ('We care about you!') reads hollow. Specific detail ('We obsess over the 40ms between tap and response') reads human."
+  vocabulary:
+    preferred:
+      - "Build"
+      - "Ship"
+      - "Craft"
+      - "Velocity"
+      - "Momentum"
+      - "Precise"
+      - "Alive"
+      - "Forward"
+    avoided:
+      - "Leverage"
+      - "Synergy"
+      - "Disrupt"
+      - "Revolutionary"
+      - "Best-in-class"
+      - "Cutting-edge"
+      - "Solution"
+      - "Empower"
+  examples:
+    - context: "Homepage hero"
+      do: "We build digital experiences that move at the speed of thought."
+      dont: "Our cutting-edge solutions empower organizations to leverage transformative technology."
+    - context: "Feature description"
+      do: "Ships in 48 hours. Scales to millions. Looks like you spent months on it."
+      dont: "Our industry-leading platform delivers best-in-class experiences with unparalleled speed."
+    - context: "Error state"
+      do: "Something broke. We're looking into it — back in a moment."
+      dont: "We apologize for the inconvenience. Our team has been notified and is working diligently to resolve this issue."
 
-colors:
-  description: "Our palette is unapologetically minimalist. By constraining our colors to high-contrast monochromes, we eliminate visual noise, direct focus, and establish a premium, modern aesthetic."
-  palette:
-    - name: "Kinetic Black"
-      hex: "#000000"
-      role: "primary"
-      on_color: "#FFFFFF"
-    - name: "Motion White"
-      hex: "#FFFFFF"
-      role: "primary"
-      on_color: "#000000"
-    - name: "Graphite"
-      hex: "#18181B"
-      role: "neutral"
-      on_color: "#FFFFFF"
-    - name: "Steel"
-      hex: "#A1A1AA"
-      role: "neutral"
-      on_color: "#000000"
-    - name: "Vapor"
-      hex: "#F4F4F5"
-      role: "neutral"
-      on_color: "#000000"
-  contrast:
-    title: "Maximum Contrast."
-    description: "Binary precision meets bold execution. Our core visual language relies on stark white against deep black, reflecting our AI-native foundation while creating striking, undeniable clarity."
-  semantic:
-    background: "#F4F4F5"
-    surface: "#FFFFFF"
-    text_primary: "#18181B"
-    text_secondary: "#A1A1AA"
-    border: "#E4E4E7"
-    accent: "#000000"
-  modes:
-    light:
-      background: "#F4F4F5"
-      surface: "#FFFFFF"
-      text_primary: "#18181B"
-      text_secondary: "#A1A1AA"
-    dark:
-      background: "#000000"
-      surface: "#18181B"
-      text_primary: "#FFFFFF"
-      text_secondary: "#A1A1AA"
+imagery:
+  description: "Visual content should feel authentic, intentional, and alive — never staged, stocky, or decorative. Every image earns its place by communicating something the text cannot."
+  photography:
+    style: "High contrast, candid, focused. Shallow depth of field to isolate subjects. Natural light preferred. Desaturation toward monochrome is encouraged."
+    subjects:
+      - "Hands building / working / creating"
+      - "Close-ups of screens with real interfaces"
+      - "Architecture and geometric forms"
+      - "People in motion — working, collaborating, thinking"
+    treatments:
+      - "High contrast (crush blacks lightly)"
+      - "Desaturated or monochrome"
+      - "Grain is acceptable, blur is not"
+      - "Crop tightly — fill the frame"
+    avoid:
+      - "Stock photography with posed smiles"
+      - "Overly saturated or filtered images"
+      - "Clip art, generic illustrations, or decorative filler"
+      - "Low-resolution or poorly lit images"
+      - "Abstract AI-generated imagery that looks synthetic"
+  illustration:
+    style: "Geometric, minimal, monochrome. Line work over fills. Diagrams and schematics over decorative art."
+    avoid:
+      - "Cartoon or whimsical styles"
+      - "Gradient-heavy illustrations"
+      - "3D renders that look dated"
+
+motion:
+  description: "Motion reinforces the brand's sense of velocity and precision. Every animation should feel intentional — never decorative. Movement communicates state, directs attention, and creates continuity between views."
+  principles:
+    - title: "Purposeful, not decorative"
+      description: "Every animation must serve a function: indicate state change, guide attention, or provide spatial context. If removing the animation loses no information, remove it."
+    - title: "Fast by default"
+      description: "The brand moves quickly. Default to shorter durations. Users should never wait for an animation to finish before they can act."
+    - title: "Ease out, not ease in"
+      description: "Elements should arrive quickly and settle slowly. This creates a sense of snapping into place — decisive, confident motion."
+    - title: "Continuity over spectacle"
+      description: "Transitions between states should feel like one continuous action, not a sequence of discrete animations. Shared-element transitions reinforce spatial relationships."
+  timing:
+    fast: "150ms"
+    normal: "300ms"
+    slow: "500ms"
+  easing:
+    default: "cubic-bezier(0.4, 0, 0.2, 1)"
+    enter: "cubic-bezier(0, 0, 0.2, 1)"
+    exit: "cubic-bezier(0.4, 0, 1, 1)"
 ---
 
 # Kinetic Forms
 
 ## Concept
 
-Kinetic Forms is an AI-native design system built for velocity. We blend relentless momentum with considered, human-centric details -- creating digital experiences that feel alive, intuitive, and relentlessly forward-leaning.
+Kinetic Forms is an AI-native software consultancy built for velocity. We blend relentless momentum with considered, human-centric details -- creating digital experiences that feel alive, intuitive, and relentlessly forward-leaning.
 
 ### Brand Pillars
 
-**Velocity** -- Frictionless interactions and rapid visual feedback that propel users forward at the speed of thought.
+**Velocity** -- The world is now moving faster than anyone ever thought possible. You need to move with it. We can help.
 
-**Flow** -- Seamless, intuitive pathways powered by AI, designed to adapt naturally to human behavior.
+**Personality** -- Every experience should feel personal and deeply human. Delight is not an afterthought. It's core to everything we build.
 
 **Precision** -- An uncompromising attention to detail, ensuring every pixel, transition, and micro-interaction is perfectly resolved.
 
@@ -146,19 +167,9 @@ Our mark strips away the superfluous, leaving only pure, directed energy. The Ki
 
 The full brand name alongside the K. mark. Use this as the default logo wherever horizontal space permits.
 
-| Variant  | Asset                             |
-|----------|-----------------------------------|
-| Positive | `assets/logo/lockup-positive.svg` |
-| Negative | `assets/logo/lockup-negative.svg` |
-
 ### Standalone Mark
 
 The K. icon in a rounded-rectangle container. Use for favicons, app icons, social avatars, and any space-constrained context.
-
-| Variant  | Asset                           |
-|----------|---------------------------------|
-| Positive | `assets/logo/mark-positive.svg` |
-| Negative | `assets/logo/mark-negative.svg` |
 
 ### Clear Space
 
@@ -176,53 +187,68 @@ Always maintain a minimum clear space around the logo equivalent to the height o
 
 ---
 
-## Typography
+## Voice & Tone
 
-Our typography is the anchor to our motion. We utilize crisp, highly legible neo-grotesque sans-serifs to provide a stable, clean structure that allows our dynamic interactions to shine.
+Our voice is confident without being arrogant, technical without being cold, and concise without being terse. We speak like a sharp colleague who respects your time.
 
-### General Sans
+### Principles
 
-General Sans acts as our universal voice. Unopinionated yet distinct, it ensures perfect clarity and focus, stripping away cognitive load to let the content breathe.
+**Lead with clarity** -- Say it plainly first. If it needs nuance, add it after — never instead of — the clear statement.
 
-- **Source:** [Fontshare](https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700,800&display=swap)
-- **Weights:** Light (300), Regular (400), Medium (500), Semibold (600), Bold (700), Extrabold (800)
-- **Fallback:** `ui-sans-serif, system-ui, -apple-system, sans-serif`
+**Respect the reader's intelligence** -- Don't over-explain. Our audience builds things — they don't need hand-holding, they need the right information at the right density.
 
-### Type Hierarchy
+**Momentum in every sentence** -- Short sentences create pace. Long ones build depth. Alternate them. Never let prose feel static.
 
-| Level        | Weight  | Tracking | Leading | Example                                  |
-|--------------|---------|----------|---------|------------------------------------------|
-| Display / H1 | Medium  | Tighter  | None    | *Velocity by design*                     |
-| Heading / H2 | Medium  | Tight    | None    | *Intelligent forms for modern teams*     |
-| Body / P     | Regular | Normal   | Relaxed | *We craft digital spaces where momentum...* |
+**Warmth through specificity** -- Generic warmth reads hollow. Specific detail reads human.
+
+### Vocabulary
+
+**Prefer:** Build, Ship, Craft, Velocity, Momentum, Precise, Alive, Forward
+
+**Avoid:** Leverage, Synergy, Disrupt, Revolutionary, Best-in-class, Cutting-edge, Solution, Empower
 
 ---
 
-## Colors
+## Imagery
 
-Our palette is unapologetically minimalist. By constraining our colors to high-contrast monochromes, we eliminate visual noise, direct focus, and establish a premium, modern aesthetic.
+Visual content should feel authentic, intentional, and alive — never staged, stocky, or decorative. Every image earns its place by communicating something the text cannot.
 
-### Palette
+### Photography
 
-| Name          | Hex       | Role    | Text On Color |
-|---------------|-----------|---------|---------------|
-| Kinetic Black | `#000000` | Primary | White         |
-| Motion White  | `#FFFFFF` | Primary | Black         |
-| Graphite      | `#18181B` | Neutral | White         |
-| Steel         | `#A1A1AA` | Neutral | Black         |
-| Vapor         | `#F4F4F5` | Neutral | Black         |
+High contrast, candid, focused. Natural light. Desaturation toward monochrome is encouraged. Crop tightly — fill the frame.
 
-### Contrast
+### Illustration
 
-Binary precision meets bold execution. Our core visual language relies on stark white against deep black, reflecting our AI-native foundation while creating striking, undeniable clarity.
+Geometric, minimal, monochrome. Line work over fills. Diagrams and schematics over decorative art.
 
-The primary expression of the brand is **Maximum Contrast** -- black on white, white on black. Intermediate grays (Graphite, Steel, Vapor) are used for supporting hierarchy, never as primary brand surfaces.
+---
 
-### Semantic Tokens
+## Motion
 
-| Token          | Light Mode | Dark Mode |
-|----------------|------------|-----------|
-| Background     | `#F4F4F5`  | `#000000` |
-| Surface        | `#FFFFFF`  | `#18181B` |
-| Text Primary   | `#18181B`  | `#FFFFFF` |
-| Text Secondary | `#A1A1AA`  | `#A1A1AA` |
+Motion reinforces the brand's sense of velocity and precision. Every animation should feel intentional — never decorative. Movement communicates state, directs attention, and creates continuity between views.
+
+### Principles
+
+**Purposeful, not decorative** -- Every animation must serve a function.
+
+**Fast by default** -- Default to shorter durations. Users should never wait for an animation.
+
+**Ease out, not ease in** -- Elements arrive quickly and settle slowly.
+
+**Continuity over spectacle** -- Transitions between states should feel like one continuous action.
+
+### Timing
+
+| Duration | Value | Use |
+|----------|-------|-----|
+| Fast     | 150ms | Micro-interactions, button states, tooltips |
+| Normal   | 300ms | Page transitions, panel slides, content reveals |
+| Slow     | 500ms | Complex transitions, onboarding sequences |
+
+### Easing
+
+| Curve   | Value                          | Use |
+|---------|--------------------------------|-----|
+| Default | `cubic-bezier(0.4, 0, 0.2, 1)` | General-purpose transitions |
+| Enter   | `cubic-bezier(0, 0, 0.2, 1)`   | Elements appearing on screen |
+| Exit    | `cubic-bezier(0.4, 0, 1, 1)`   | Elements leaving the screen |

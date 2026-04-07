@@ -12,6 +12,7 @@ import indexHtml from "/index.html?raw";
 import gitignore from "/.gitignore?raw";
 import readme from "/README.md?raw";
 import brandMd from "/BRAND.md?raw";
+import designMd from "/DESIGN.md?raw";
 
 // Scripts
 import bundleJs from "/scripts/bundle.js?raw";
@@ -24,6 +25,7 @@ import svgTemplatesJs from "/src/constants/svgTemplates.js?raw";
 import downloadFileJs from "/src/lib/downloadFile.js?raw";
 import imageUtilsJs from "/src/lib/imageUtils.js?raw";
 import parseBrandJs from "/src/lib/parseBrand.js?raw";
+import parseDesignJs from "/src/lib/parseDesign.js?raw";
 import sourceFilesJs from "/src/lib/sourceFiles.js?raw";
 
 // src/ — hooks
@@ -42,6 +44,7 @@ import colorSystemViewJsx from "/src/components/views/ColorSystemView.jsx?raw";
 import conceptViewJsx from "/src/components/views/ConceptView.jsx?raw";
 import logoViewJsx from "/src/components/views/LogoView.jsx?raw";
 import typographyViewJsx from "/src/components/views/TypographyView.jsx?raw";
+import systemViewJsx from "/src/components/views/SystemView.jsx?raw";
 
 // src/ — entry
 import appJsx from "/src/App.jsx?raw";
@@ -59,6 +62,7 @@ export function getAllSourceFiles() {
     ".gitignore": gitignore,
     "README.md": readme,
     "BRAND.md": brandMd,
+    "DESIGN.md": designMd,
 
     // Scripts
     "scripts/bundle.js": bundleJs,
@@ -71,6 +75,7 @@ export function getAllSourceFiles() {
     "src/lib/downloadFile.js": downloadFileJs,
     "src/lib/imageUtils.js": imageUtilsJs,
     "src/lib/parseBrand.js": parseBrandJs,
+    "src/lib/parseDesign.js": parseDesignJs,
     "src/lib/sourceFiles.js": sourceFilesJs,
 
     // src/hooks
@@ -89,6 +94,7 @@ export function getAllSourceFiles() {
     "src/components/views/ConceptView.jsx": conceptViewJsx,
     "src/components/views/LogoView.jsx": logoViewJsx,
     "src/components/views/TypographyView.jsx": typographyViewJsx,
+    "src/components/views/SystemView.jsx": systemViewJsx,
 
     // src/ entry
     "src/App.jsx": appJsx,
