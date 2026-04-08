@@ -1,5 +1,66 @@
+import { useEffect, useState } from "react";
 import { BRAND } from "../../constants/brand";
 import DownloadButton from "../DownloadButton";
+import { generateWaveBannerImage } from "../../lib/imageUtils";
+import {
+  POS_LOGO,
+  NEG_LOGO,
+  POS_LOGO_TEXT,
+  NEG_LOGO_TEXT,
+} from "../../constants/svgTemplates";
+
+const LOCKUP_RATIO = 3.125;
+
+function BannerPreview({ width, height, bgColor, particleRgb, isLight, label }) {
+  const [src, setSrc] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    let url;
+
+    const isWide = width / height > 1.5;
+    const logoH = Math.min(width, height) * (isWide ? 0.4 : 0.3);
+    const logoW = isWide ? logoH * LOCKUP_RATIO : logoH;
+    const logoSvg = isLight
+      ? isWide ? POS_LOGO_TEXT : POS_LOGO
+      : isWide ? NEG_LOGO_TEXT : NEG_LOGO;
+
+    generateWaveBannerImage(
+      width, height, logoSvg, logoW, logoH, "png", bgColor, particleRgb,
+    ).then((blob) => {
+      if (cancelled) return;
+      url = URL.createObjectURL(blob);
+      setSrc(url);
+    });
+
+    return () => {
+      cancelled = true;
+      if (url) URL.revokeObjectURL(url);
+    };
+  }, [width, height, bgColor, particleRgb, isLight]);
+
+  return (
+    <div className="relative rounded-2xl overflow-hidden">
+      {src ? (
+        <img src={src} alt={label} className="w-full h-auto block" />
+      ) : (
+        <div
+          className="w-full animate-pulse rounded-2xl"
+          style={{
+            aspectRatio: `${width}/${height}`,
+            backgroundColor: isLight ? "#f4f4f5" : "#27272a",
+          }}
+        />
+      )}
+      <span
+        className="absolute top-4 left-5 text-xs font-bold tracking-widest uppercase"
+        style={{ color: isLight ? "#a1a1aa" : "#71717a" }}
+      >
+        {label}
+      </span>
+    </div>
+  );
+}
 
 export default function LogoView({ downloadStatus, triggerAssetsDownload }) {
   return (
@@ -92,6 +153,54 @@ export default function LogoView({ downloadStatus, triggerAssetsDownload }) {
           </div>
         </div>
       </div>
+
+      <div>
+          <h3 className="text-sm font-bold tracking-widest uppercase text-zinc-400 mb-6">
+            Social Banners
+          </h3>
+          <p className="text-zinc-500 mb-8 max-w-2xl">
+            Banner images built from the canvas wave, tailored for every major
+            platform. The asset kit includes all recommended sizes for Twitter,
+            Facebook, LinkedIn, Instagram, YouTube, TikTok, Discord, and
+            Pinterest in both light and dark variants.
+          </p>
+          <div className="space-y-4 mb-8">
+            <BannerPreview
+              width={1500}
+              height={500}
+              isLight
+              bgColor="#ffffff"
+              particleRgb="113, 113, 122"
+              label="Positive — Banner"
+            />
+            <BannerPreview
+              width={1500}
+              height={500}
+              isLight={false}
+              bgColor="#000000"
+              particleRgb="161, 161, 170"
+              label="Negative — Banner"
+            />
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            <BannerPreview
+              width={1080}
+              height={1080}
+              isLight
+              bgColor="#ffffff"
+              particleRgb="113, 113, 122"
+              label="Positive — Post"
+            />
+            <BannerPreview
+              width={1080}
+              height={1080}
+              isLight={false}
+              bgColor="#000000"
+              particleRgb="161, 161, 170"
+              label="Negative — Post"
+            />
+          </div>
+        </div>
 
       <div className="grid md:grid-cols-2 gap-12 pt-8 border-t border-zinc-200">
         <div className="space-y-4">
