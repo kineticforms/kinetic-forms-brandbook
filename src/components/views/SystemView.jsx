@@ -2,11 +2,28 @@ import { useState } from "react";
 import { CheckCircle, XCircle } from "lucide-react";
 import { BRAND, DESIGN } from "../../constants/brand";
 
+import handsBuilding from "../../assets/imagery/hands-building.png";
+import screenInterface from "../../assets/imagery/screen-interface.png";
+import architecture from "../../assets/imagery/architecture.png";
+import peopleMotion from "../../assets/imagery/people-motion.png";
+import illustrationGeometric from "../../assets/imagery/illustration-geometric.png";
+
+const PHOTO_EXAMPLES = [
+  { src: handsBuilding, alt: "Hands building — candid close-up", caption: "Hands building / working / creating" },
+  { src: screenInterface, alt: "Screen with real interface", caption: "Close-ups of screens with real interfaces" },
+  { src: architecture, alt: "Architectural geometric forms", caption: "Architecture and geometric forms" },
+  { src: peopleMotion, alt: "Person in motion, collaborating", caption: "People in motion — working, collaborating" },
+];
+
+const ILLUSTRATION_EXAMPLES = [
+  { src: illustrationGeometric, alt: "Geometric line diagram", caption: "Geometric, minimal, monochrome line work" },
+];
+
 const SECTIONS = [
-  { id: "elevation", label: "Elevation" },
   { id: "components", label: "Components" },
-  { id: "motion", label: "Motion" },
   { id: "imagery", label: "Imagery" },
+  { id: "elevation", label: "Elevation" },
+  { id: "motion", label: "Motion" },
   { id: "guidelines", label: "Guidelines" },
 ];
 
@@ -114,7 +131,7 @@ export default function SystemView() {
   const motion = BRAND.motion;
   const imagery = BRAND.imagery;
 
-  const [activeSection, setActiveSection] = useState("elevation");
+  const [activeSection, setActiveSection] = useState("components");
   const [timingActive, setTimingActive] = useState({ fast: false, normal: false, slow: false });
   const [easingActive, setEasingActive] = useState({ default: false, enter: false, exit: false });
 
@@ -257,6 +274,16 @@ export default function SystemView() {
               <div className="space-y-8">
                 <p className="text-xs font-bold tracking-widest uppercase text-zinc-400">Photography</p>
                 <p className="text-zinc-500 leading-relaxed max-w-2xl">{imagery.photography.style}</p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {PHOTO_EXAMPLES.map((img, i) => (
+                    <div key={i} className="space-y-2">
+                      <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-zinc-100">
+                        <img src={img.src} alt={img.alt} className="w-full h-full object-cover" />
+                      </div>
+                      <p className="text-xs text-zinc-400 leading-relaxed">{img.caption}</p>
+                    </div>
+                  ))}
+                </div>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="p-8 border border-zinc-200 rounded-2xl bg-white space-y-4">
                     <h4 className="font-bold">Subjects</h4>
@@ -294,6 +321,16 @@ export default function SystemView() {
               <div className="space-y-8">
                 <p className="text-xs font-bold tracking-widest uppercase text-zinc-400">Illustration</p>
                 <p className="text-zinc-500 leading-relaxed max-w-2xl">{imagery.illustration.style}</p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {ILLUSTRATION_EXAMPLES.map((img, i) => (
+                    <div key={i} className="space-y-2">
+                      <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200">
+                        <img src={img.src} alt={img.alt} className="w-full h-full object-cover" />
+                      </div>
+                      <p className="text-xs text-zinc-400 leading-relaxed">{img.caption}</p>
+                    </div>
+                  ))}
+                </div>
                 {imagery.illustration.avoid && (
                   <div className="grid md:grid-cols-2 gap-3">
                     {imagery.illustration.avoid.map((a, i) => (
