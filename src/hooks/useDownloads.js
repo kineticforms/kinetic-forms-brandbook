@@ -247,8 +247,8 @@ export function useDownloads() {
       downloadBlob(zipBlob, filename);
       setStatus((prev) => ({ ...prev, [statusKey]: "success" }));
     } catch (error) {
-      console.error("Asset generation failed", error);
-      alert("Failed to generate assets. Please ensure your browser has enough memory available.");
+      console.error("Asset generation failed:", error);
+      alert(`Asset generation failed: ${error?.message || error}`);
     } finally {
       resetAfter(setStatus, statusKey, 4000);
     }

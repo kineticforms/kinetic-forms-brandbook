@@ -23,15 +23,21 @@ function BannerPreview({ width, height, bgColor, particleRgb, isLight, label, lo
 
     ensureFontsLoaded().then(() => {
       if (cancelled) return;
-      const isWide = width / height > 1.5;
-      const logoH = Math.min(width, height) * (logoScaleOverride ?? (isWide ? 0.4 : 0.3));
+      // Cap preview resolution to avoid rendering huge canvases for display
+      const maxDim = 800;
+      const scale = Math.min(1, maxDim / Math.max(width, height));
+      const pw = Math.round(width * scale);
+      const ph = Math.round(height * scale);
+
+      const isWide = pw / ph > 1.5;
+      const logoH = Math.min(pw, ph) * (logoScaleOverride ?? (isWide ? 0.4 : 0.3));
       const logoW = isWide ? logoH * LOCKUP_RATIO : logoH;
       const logoSvg = isLight
         ? isWide ? getPosLogoText() : getPosLogo()
         : isWide ? getNegLogoText() : getNegLogo();
 
       return generateWaveBannerImage(
-        width, height, logoSvg, logoW, logoH, "png", bgColor, particleRgb,
+        pw, ph, logoSvg, logoW, logoH, "png", bgColor, particleRgb,
       );
     }).then((blob) => {
       if (cancelled || !blob) return;

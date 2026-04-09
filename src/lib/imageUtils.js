@@ -206,8 +206,12 @@ export function renderWaveSurgeFrame(ctx, w, h, elapsed, {
 
 // ── GIF generators ────────────────────────────────────────────────────
 
+function yieldToMain() {
+  return new Promise((resolve) => setTimeout(resolve, 0));
+}
+
 async function loadGifenc() {
-  return import("https://esm.sh/gifenc");
+  return import("https://cdn.jsdelivr.net/npm/gifenc@1.0.3/+esm");
 }
 
 export async function generateDiscordAnimatedGif(
@@ -243,6 +247,8 @@ export async function generateDiscordAnimatedGif(
       delay: isLast ? 3000 : delay,
       ...(frame === 0 ? { repeat: 0 } : {}),
     });
+
+    if (frame % 5 === 0) await yieldToMain();
   }
 
   gif.finish();
@@ -263,18 +269,17 @@ export async function generateAnimatedWaveGif(
   const isWide = width / height > 1.5;
   const offsetY = isWide ? -height * 0.18 : 0;
 
-  const fps = 10;
-  const duration = 3;
+  const fps = 15;
+  const duration = 4;
   const totalFrames = fps * duration;
   const delay = Math.round(1000 / fps);
-  // Match AnimatedWaveCanvas visual speed: 0.008/frame at 60fps = 0.48/s
   const timePerFrame = 0.48 / fps;
 
   const refDiag = 900;
   const diag = Math.sqrt(width * width + height * height);
   const s = diag / refDiag;
-  const cols = Math.ceil(45 * s);
-  const rows = Math.ceil(22 * s);
+  const cols = Math.ceil(70 * s);
+  const rows = Math.ceil(35 * s);
   const spacing = 45;
   const fov = 400 * s;
   const cameraZ = 250 * s;
@@ -316,13 +321,7 @@ export async function generateAnimatedWaveGif(
     }
 
     if (logoImg) {
-      ctx.drawImage(
-        logoImg,
-        (width - logoDrawW) / 2,
-        (height - logoDrawH) / 2,
-        logoDrawW,
-        logoDrawH,
-      );
+      ctx.drawImage(logoImg, (width - logoDrawW) / 2, (height - logoDrawH) / 2, logoDrawW, logoDrawH);
     }
 
     const imageData = ctx.getImageData(0, 0, width, height);
@@ -333,6 +332,8 @@ export async function generateAnimatedWaveGif(
       delay,
       ...(frame === 0 ? { repeat: 0 } : {}),
     });
+
+    if (frame % 4 === 0) await yieldToMain();
   }
 
   gif.finish();
