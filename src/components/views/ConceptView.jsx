@@ -1,5 +1,5 @@
-import { ArrowRight, FileCode2, FileText, CheckCircle, XCircle } from "lucide-react";
-import { BRAND, DESIGN, BRAND_PILLARS } from "../../constants/brand";
+import { FileCode2, FileText, CheckCircle, XCircle } from "lucide-react";
+import { BRAND, BRAND_PILLARS } from "../../constants/brand";
 import TypewriterHeading from "../TypewriterHeading";
 import DownloadButton from "../DownloadButton";
 
@@ -8,7 +8,6 @@ export default function ConceptView({
   triggerPdfDownload,
   triggerSourceDownload,
   triggerMarkdownDownload,
-  onNavigate,
 }) {
   const overviewParagraphs = BRAND.concept.description
     .split("\n\n")
@@ -81,42 +80,6 @@ export default function ConceptView({
               </p>
             </div>
           ))}
-        </div>
-      </div>
-
-      {/* Hero Cards */}
-      <div className="grid md:grid-cols-2 gap-4">
-        <div className="aspect-square bg-zinc-900 rounded-3xl flex items-center justify-center p-12 group overflow-hidden relative">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-          <div className="relative w-full h-full border border-white/10 rounded-full flex items-center justify-center animate-[spin_20s_linear_infinite]">
-            <div className="w-1/2 h-0.5 bg-white rotate-45 translate-x-4"></div>
-            <div className="w-1/2 h-0.5 bg-white -rotate-45 translate-x-4"></div>
-            <div className="absolute w-0.5 h-1/2 bg-white -translate-x-8"></div>
-          </div>
-        </div>
-        <div className="aspect-square bg-white border border-zinc-200 rounded-3xl p-12 flex flex-col justify-between hover:border-zinc-300 transition-colors">
-          <div className="space-y-6">
-            <div className="h-1 w-12 bg-black"></div>
-            <h4 className="text-4xl md:text-5xl font-medium tracking-tight leading-tight">
-              Design
-              <br />
-              Overview
-            </h4>
-            <div className="text-zinc-500 text-base max-w-sm space-y-3">
-              {DESIGN.overview.description
-                .split("\n\n")
-                .filter((p) => p.trim())
-                .map((p, i) => (
-                  <p key={i}>{p.trim()}</p>
-                ))}
-            </div>
-          </div>
-          <button
-            onClick={() => onNavigate("system")}
-            className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-black hover:gap-3 transition-all"
-          >
-            Explore System <ArrowRight className="w-4 h-4" />
-          </button>
         </div>
       </div>
 
