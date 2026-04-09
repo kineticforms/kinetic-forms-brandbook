@@ -4,9 +4,9 @@ export default function Navbar({ view, setView }) {
   return (
     <nav className="fixed top-0 w-full z-50 border-b border-zinc-200 bg-white/80 backdrop-blur-md px-6 py-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 bg-black rounded-sm flex items-center justify-center">
+        <a href="https://kineticforms.ai" className="w-8 h-8 bg-black rounded-sm flex items-center justify-center">
           <span className="text-white font-bold text-xs">K.</span>
-        </div>
+        </a>
         <span className="font-semibold tracking-tight uppercase text-sm">
           Kinetic Forms Brandbook
         </span>
