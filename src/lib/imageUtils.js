@@ -1,4 +1,4 @@
-function renderWaveToCanvas(width, height, { bgColor, particleRgb, time = 2.5, offsetY = 0 }) {
+function renderWaveToCanvas(width, height, { bgColor, particleRgb, time = 2.5, offsetY = 0, cameraYFactor = 1 }) {
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
@@ -18,7 +18,7 @@ function renderWaveToCanvas(width, height, { bgColor, particleRgb, time = 2.5, o
   const spacing = 45;
   const fov = 400 * s;
   const cameraZ = 250 * s;
-  const cameraY = -150 * s;
+  const cameraY = -150 * s * cameraYFactor;
   const amplitude = 30 * s;
 
   for (let i = 0; i < cols; i++) {
@@ -74,7 +74,8 @@ export async function generateWaveBannerImage(
   const isWide = width / height > 1.5;
   const offsetY = isWide ? -height * 0.18 : 0;
   const time = isWide ? 0.8 : 2.5;
-  const canvas = renderWaveToCanvas(width, height, { bgColor, particleRgb, offsetY, time });
+  const cameraYFactor = 1;
+  const canvas = renderWaveToCanvas(width, height, { bgColor, particleRgb, offsetY, time, cameraYFactor });
   const ctx = canvas.getContext("2d");
 
   if (logoSvg) {

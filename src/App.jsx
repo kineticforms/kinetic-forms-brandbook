@@ -16,6 +16,8 @@ export default function App() {
     downloadStatus,
     isPrinting,
     triggerAssetsDownload,
+    triggerLogoDownload,
+    triggerSocialDownload,
     triggerPdfDownload,
     triggerSourceDownload,
     triggerMarkdownDownload,
@@ -53,6 +55,8 @@ export default function App() {
           <LogoView
             downloadStatus={downloadStatus}
             triggerAssetsDownload={triggerAssetsDownload}
+            triggerLogoDownload={triggerLogoDownload}
+            triggerSocialDownload={triggerSocialDownload}
           />
         )}
         {view === "colors" && <ColorSystemView />}

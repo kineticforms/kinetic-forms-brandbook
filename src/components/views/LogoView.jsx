@@ -3,10 +3,11 @@ import { BRAND } from "../../constants/brand";
 import DownloadButton from "../DownloadButton";
 import { generateWaveBannerImage } from "../../lib/imageUtils";
 import {
-  POS_LOGO,
-  NEG_LOGO,
-  POS_LOGO_TEXT,
-  NEG_LOGO_TEXT,
+  ensureFontsLoaded,
+  getPosLogo,
+  getNegLogo,
+  getPosLogoText,
+  getNegLogoText,
 } from "../../constants/svgTemplates";
 
 const LOCKUP_RATIO = 3.125;
@@ -18,17 +19,20 @@ function BannerPreview({ width, height, bgColor, particleRgb, isLight, label }) 
     let cancelled = false;
     let url;
 
-    const isWide = width / height > 1.5;
-    const logoH = Math.min(width, height) * (isWide ? 0.4 : 0.3);
-    const logoW = isWide ? logoH * LOCKUP_RATIO : logoH;
-    const logoSvg = isLight
-      ? isWide ? POS_LOGO_TEXT : POS_LOGO
-      : isWide ? NEG_LOGO_TEXT : NEG_LOGO;
-
-    generateWaveBannerImage(
-      width, height, logoSvg, logoW, logoH, "png", bgColor, particleRgb,
-    ).then((blob) => {
+    ensureFontsLoaded().then(() => {
       if (cancelled) return;
+      const isWide = width / height > 1.5;
+      const logoH = Math.min(width, height) * (isWide ? 0.4 : 0.3);
+      const logoW = isWide ? logoH * LOCKUP_RATIO : logoH;
+      const logoSvg = isLight
+        ? isWide ? getPosLogoText() : getPosLogo()
+        : isWide ? getNegLogoText() : getNegLogo();
+
+      return generateWaveBannerImage(
+        width, height, logoSvg, logoW, logoH, "png", bgColor, particleRgb,
+      );
+    }).then((blob) => {
+      if (cancelled || !blob) return;
       url = URL.createObjectURL(blob);
       setSrc(url);
     });
@@ -62,7 +66,7 @@ function BannerPreview({ width, height, bgColor, particleRgb, isLight, label }) 
   );
 }
 
-export default function LogoView({ downloadStatus, triggerAssetsDownload }) {
+export default function LogoView({ downloadStatus, triggerAssetsDownload, triggerLogoDownload, triggerSocialDownload }) {
   return (
     <section
       id="view-logo"
@@ -82,15 +86,29 @@ export default function LogoView({ downloadStatus, triggerAssetsDownload }) {
           <DownloadButton
             status={downloadStatus.assets}
             onClick={triggerAssetsDownload}
-            idleLabel="Download Complete Asset Kit (.ZIP)"
-            downloadingLabel="Generating Assets (10-15s)..."
+            idleLabel="Download Complete Asset Kit"
+            downloadingLabel="Generating All Assets..."
             successLabel="Downloaded Successfully"
             variant="secondary"
           />
-          <p className="text-xs text-zinc-400 md:text-right max-w-[280px] leading-relaxed">
-            Includes App/Social Icons, and all formats (SVG, PNG, WebP, JPG)
-            scaled up to 8K resolution.
-          </p>
+          <div className="flex gap-2">
+            <DownloadButton
+              status={downloadStatus.logos}
+              onClick={triggerLogoDownload}
+              idleLabel="Logo Package"
+              downloadingLabel="Generating..."
+              successLabel="Done"
+              variant="secondary"
+            />
+            <DownloadButton
+              status={downloadStatus.social}
+              onClick={triggerSocialDownload}
+              idleLabel="Social & App Package"
+              downloadingLabel="Generating..."
+              successLabel="Done"
+              variant="secondary"
+            />
+          </div>
         </div>
       </div>
 
