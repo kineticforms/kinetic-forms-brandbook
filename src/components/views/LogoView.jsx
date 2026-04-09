@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { BRAND } from "../../constants/brand";
 import DownloadButton from "../DownloadButton";
+import AnimatedWaveCanvas from "../AnimatedWaveCanvas";
+import DiscordAnimatedIcon from "../DiscordAnimatedIcon";
 import { generateWaveBannerImage } from "../../lib/imageUtils";
 import {
   ensureFontsLoaded,
@@ -12,7 +14,7 @@ import {
 
 const LOCKUP_RATIO = 3.125;
 
-function BannerPreview({ width, height, bgColor, particleRgb, isLight, label }) {
+function BannerPreview({ width, height, bgColor, particleRgb, isLight, label, logoScale: logoScaleOverride }) {
   const [src, setSrc] = useState(null);
 
   useEffect(() => {
@@ -22,7 +24,7 @@ function BannerPreview({ width, height, bgColor, particleRgb, isLight, label }) 
     ensureFontsLoaded().then(() => {
       if (cancelled) return;
       const isWide = width / height > 1.5;
-      const logoH = Math.min(width, height) * (isWide ? 0.4 : 0.3);
+      const logoH = Math.min(width, height) * (logoScaleOverride ?? (isWide ? 0.4 : 0.3));
       const logoW = isWide ? logoH * LOCKUP_RATIO : logoH;
       const logoSvg = isLight
         ? isWide ? getPosLogoText() : getPosLogo()
@@ -41,7 +43,7 @@ function BannerPreview({ width, height, bgColor, particleRgb, isLight, label }) 
       cancelled = true;
       if (url) URL.revokeObjectURL(url);
     };
-  }, [width, height, bgColor, particleRgb, isLight]);
+  }, [width, height, bgColor, particleRgb, isLight, logoScaleOverride]);
 
   return (
     <div className="relative rounded-2xl overflow-hidden">
@@ -56,17 +58,33 @@ function BannerPreview({ width, height, bgColor, particleRgb, isLight, label }) 
           }}
         />
       )}
-      <span
-        className="absolute top-4 left-5 text-xs font-bold tracking-widest uppercase"
-        style={{ color: isLight ? "#a1a1aa" : "#71717a" }}
-      >
-        {label}
-      </span>
+      {label && (
+        <span
+          className="absolute top-4 left-5 text-xs font-bold tracking-widest uppercase"
+          style={{ color: isLight ? "#a1a1aa" : "#71717a" }}
+        >
+          {label}
+        </span>
+      )}
     </div>
   );
 }
 
 export default function LogoView({ downloadStatus, triggerAssetsDownload, triggerLogoDownload, triggerSocialDownload }) {
+  const [posLogoSvg, setPosLogoSvg] = useState(null);
+  const [negLogoSvg, setNegLogoSvg] = useState(null);
+  const [posLockupSvg, setPosLockupSvg] = useState(null);
+  const [negLockupSvg, setNegLockupSvg] = useState(null);
+
+  useEffect(() => {
+    ensureFontsLoaded().then(() => {
+      setPosLogoSvg(getPosLogo());
+      setNegLogoSvg(getNegLogo());
+      setPosLockupSvg(getPosLogoText());
+      setNegLockupSvg(getNegLogoText());
+    });
+  }, []);
+
   return (
     <section
       id="view-logo"
@@ -200,6 +218,36 @@ export default function LogoView({ downloadStatus, triggerAssetsDownload, trigge
               label="Negative — Banner"
             />
           </div>
+          <div className="space-y-4 mb-8">
+            <div className="relative rounded-2xl overflow-hidden">
+              <AnimatedWaveCanvas
+                aspectRatio="1500/500"
+                bgColor="#ffffff"
+                particleRgb="113, 113, 122"
+                logoSvg={posLockupSvg}
+                logoScale={0.4}
+                logoAspectRatio={LOCKUP_RATIO}
+                verticalShift={-0.18}
+              />
+              <span className="absolute top-4 left-5 text-xs font-bold tracking-widest uppercase text-zinc-400 pointer-events-none">
+                Positive — Banner (Animated)
+              </span>
+            </div>
+            <div className="relative rounded-2xl overflow-hidden">
+              <AnimatedWaveCanvas
+                aspectRatio="1500/500"
+                bgColor="#000000"
+                particleRgb="161, 161, 170"
+                logoSvg={negLockupSvg}
+                logoScale={0.4}
+                logoAspectRatio={LOCKUP_RATIO}
+                verticalShift={-0.18}
+              />
+              <span className="absolute top-4 left-5 text-xs font-bold tracking-widest uppercase text-zinc-500 pointer-events-none">
+                Negative — Banner (Animated)
+              </span>
+            </div>
+          </div>
           <div className="grid md:grid-cols-2 gap-8">
             <BannerPreview
               width={1080}
@@ -217,6 +265,95 @@ export default function LogoView({ downloadStatus, triggerAssetsDownload, trigge
               particleRgb="161, 161, 170"
               label="Negative — Post"
             />
+          </div>
+          <div className="grid md:grid-cols-2 gap-8 mt-8">
+            <div className="relative rounded-2xl overflow-hidden">
+              <AnimatedWaveCanvas
+                aspectRatio="1/1"
+                bgColor="#ffffff"
+                particleRgb="113, 113, 122"
+                logoSvg={posLogoSvg}
+                logoScale={0.3}
+              />
+              <span className="absolute top-4 left-5 text-xs font-bold tracking-widest uppercase text-zinc-400 pointer-events-none">
+                Positive — Post (Animated)
+              </span>
+            </div>
+            <div className="relative rounded-2xl overflow-hidden">
+              <AnimatedWaveCanvas
+                aspectRatio="1/1"
+                bgColor="#000000"
+                particleRgb="161, 161, 170"
+                logoSvg={negLogoSvg}
+                logoScale={0.3}
+              />
+              <span className="absolute top-4 left-5 text-xs font-bold tracking-widest uppercase text-zinc-500 pointer-events-none">
+                Negative — Post (Animated)
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-sm font-bold tracking-widest uppercase text-zinc-400 mb-6">
+            Discord Profile Icon
+          </h3>
+          <p className="text-zinc-500 mb-8 max-w-2xl">
+            Profile icons for Discord in static and animated variants. The
+            animated version features a wave crest that sweeps across the icon
+            before settling to a resting state — hover to preview. Animated
+            GIFs for Discord Nitro profile pictures are included in the
+            asset kit download.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-2xl">
+            <div className="space-y-3">
+              <div className="rounded-full overflow-hidden shadow-lg">
+                <BannerPreview
+                  width={512}
+                  height={512}
+                  isLight={false}
+                  bgColor="#000000"
+                  particleRgb="161, 161, 170"
+                  logoScale={0.5}
+                />
+              </div>
+              <p className="text-xs text-zinc-400 font-medium text-center">Dark</p>
+            </div>
+            <div className="space-y-3">
+              <div className="rounded-full overflow-hidden shadow-lg border border-zinc-200">
+                <BannerPreview
+                  width={512}
+                  height={512}
+                  isLight
+                  bgColor="#ffffff"
+                  particleRgb="113, 113, 122"
+                  logoScale={0.5}
+                />
+              </div>
+              <p className="text-xs text-zinc-400 font-medium text-center">Light</p>
+            </div>
+            <div className="space-y-3">
+              <div className="rounded-full overflow-hidden shadow-lg">
+                <DiscordAnimatedIcon
+                  bgColor="#000000"
+                  particleRgb="161, 161, 170"
+                  logoSvg={negLogoSvg}
+                  logoScale={0.5}
+                />
+              </div>
+              <p className="text-xs text-zinc-400 font-medium text-center">Dark — Animated</p>
+            </div>
+            <div className="space-y-3">
+              <div className="rounded-full overflow-hidden shadow-lg border border-zinc-200">
+                <DiscordAnimatedIcon
+                  bgColor="#ffffff"
+                  particleRgb="113, 113, 122"
+                  logoSvg={posLogoSvg}
+                  logoScale={0.5}
+                />
+              </div>
+              <p className="text-xs text-zinc-400 font-medium text-center">Light — Animated</p>
+            </div>
           </div>
         </div>
 

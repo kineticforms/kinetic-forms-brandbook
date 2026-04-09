@@ -3,6 +3,8 @@ import {
   generateRasterImage,
   generatePaddedSocialImage,
   generateWaveBannerImage,
+  generateDiscordAnimatedGif,
+  generateAnimatedWaveGif,
 } from "../lib/imageUtils";
 import { downloadBlob } from "../lib/downloadFile";
 import { getAllSourceFiles } from "../lib/sourceFiles";
@@ -99,6 +101,7 @@ export function useDownloads() {
     ],
     discord: [
       { name: "server-icon", w: 512, h: 512, wave: false },
+      { name: "server-icon-wave", w: 512, h: 512, wave: true },
       { name: "server-banner", w: 960, h: 540, wave: true },
     ],
     pinterest: [
@@ -189,6 +192,42 @@ export function useDownloads() {
         }
       }
     }
+
+    // ── Animated GIFs ────────────────────────────────────
+    const animFolder = socialFolder.folder("animated");
+
+    // Animated posts (looping wave)
+    const postLogoH = 1080 * 0.3;
+    animFolder.file(
+      "animated-post-1080x1080-light.gif",
+      await generateAnimatedWaveGif(1080, 1080, posLogo, postLogoH, postLogoH, "#ffffff", LIGHT_PARTICLES),
+    );
+    animFolder.file(
+      "animated-post-1080x1080-dark.gif",
+      await generateAnimatedWaveGif(1080, 1080, negLogo, postLogoH, postLogoH, "#000000", DARK_PARTICLES),
+    );
+
+    // Animated banners (looping wave)
+    const bannerLogoH = 500 * 0.4;
+    const bannerLogoW = bannerLogoH * LOCKUP_RATIO;
+    animFolder.file(
+      "animated-banner-1500x500-light.gif",
+      await generateAnimatedWaveGif(1500, 500, posLogoText, bannerLogoW, bannerLogoH, "#ffffff", LIGHT_PARTICLES),
+    );
+    animFolder.file(
+      "animated-banner-1500x500-dark.gif",
+      await generateAnimatedWaveGif(1500, 500, negLogoText, bannerLogoW, bannerLogoH, "#000000", DARK_PARTICLES),
+    );
+
+    // Animated Discord icons (surge animation for Nitro profiles)
+    animFolder.file(
+      "animated-discord-icon-512x512-light.gif",
+      await generateDiscordAnimatedGif(512, posLogo, "#ffffff", LIGHT_PARTICLES),
+    );
+    animFolder.file(
+      "animated-discord-icon-512x512-dark.gif",
+      await generateDiscordAnimatedGif(512, negLogo, "#000000", DARK_PARTICLES),
+    );
   }
 
   async function generateAndDownload(statusKey, filename, addFns) {
