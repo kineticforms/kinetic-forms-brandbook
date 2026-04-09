@@ -18,6 +18,7 @@ export default function App() {
     triggerAssetsDownload,
     triggerLogoDownload,
     triggerSocialDownload,
+    triggerAnimatedDownload,
     triggerPdfDownload,
     triggerSourceDownload,
     triggerMarkdownDownload,
@@ -57,6 +58,7 @@ export default function App() {
             triggerAssetsDownload={triggerAssetsDownload}
             triggerLogoDownload={triggerLogoDownload}
             triggerSocialDownload={triggerSocialDownload}
+            triggerAnimatedDownload={triggerAnimatedDownload}
           />
         )}
         {view === "colors" && <ColorSystemView />}

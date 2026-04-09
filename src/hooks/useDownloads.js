@@ -43,6 +43,7 @@ export function useDownloads() {
     assets: "idle",
     logos: "idle",
     social: "idle",
+    animated: "idle",
     markdown: "idle",
   });
   const [isPrinting, setIsPrinting] = useState(false);
@@ -193,16 +194,21 @@ export function useDownloads() {
       }
     }
 
-    // ── Animated GIFs ────────────────────────────────────
-    const animFolder = socialFolder.folder("animated");
+  }
+
+  async function addAnimatedAssets(zip, svgs) {
+    const { posLogo, negLogo, posLogoText, negLogoText } = svgs;
+    const LOCKUP_RATIO = 3.125;
+    const LIGHT_PARTICLES = "113, 113, 122";
+    const DARK_PARTICLES = "161, 161, 170";
 
     // Animated posts (looping wave)
     const postLogoH = 1080 * 0.3;
-    animFolder.file(
+    zip.file(
       "animated-post-1080x1080-light.gif",
       await generateAnimatedWaveGif(1080, 1080, posLogo, postLogoH, postLogoH, "#ffffff", LIGHT_PARTICLES),
     );
-    animFolder.file(
+    zip.file(
       "animated-post-1080x1080-dark.gif",
       await generateAnimatedWaveGif(1080, 1080, negLogo, postLogoH, postLogoH, "#000000", DARK_PARTICLES),
     );
@@ -210,21 +216,21 @@ export function useDownloads() {
     // Animated banners (looping wave)
     const bannerLogoH = 500 * 0.4;
     const bannerLogoW = bannerLogoH * LOCKUP_RATIO;
-    animFolder.file(
+    zip.file(
       "animated-banner-1500x500-light.gif",
       await generateAnimatedWaveGif(1500, 500, posLogoText, bannerLogoW, bannerLogoH, "#ffffff", LIGHT_PARTICLES),
     );
-    animFolder.file(
+    zip.file(
       "animated-banner-1500x500-dark.gif",
       await generateAnimatedWaveGif(1500, 500, negLogoText, bannerLogoW, bannerLogoH, "#000000", DARK_PARTICLES),
     );
 
     // Animated Discord icons (surge animation for Nitro profiles)
-    animFolder.file(
+    zip.file(
       "animated-discord-icon-512x512-light.gif",
       await generateDiscordAnimatedGif(512, posLogo, "#ffffff", LIGHT_PARTICLES),
     );
-    animFolder.file(
+    zip.file(
       "animated-discord-icon-512x512-dark.gif",
       await generateDiscordAnimatedGif(512, negLogo, "#000000", DARK_PARTICLES),
     );
@@ -251,6 +257,7 @@ export function useDownloads() {
   const triggerAssetsDownload = () => generateAndDownload("assets", "kinetic-forms-brand-assets.zip", [addLogoAssets, addSocialAssets]);
   const triggerLogoDownload = () => generateAndDownload("logos", "kinetic-forms-logo-assets.zip", [addLogoAssets]);
   const triggerSocialDownload = () => generateAndDownload("social", "kinetic-forms-social-assets.zip", [addSocialAssets]);
+  const triggerAnimatedDownload = () => generateAndDownload("animated", "kinetic-forms-animated-assets.zip", [addAnimatedAssets]);
 
   const triggerPdfDownload = async () => {
     setStatus((prev) => ({ ...prev, pdf: "downloading" }));
@@ -356,6 +363,7 @@ export function useDownloads() {
     triggerAssetsDownload,
     triggerLogoDownload,
     triggerSocialDownload,
+    triggerAnimatedDownload,
     triggerPdfDownload,
     triggerSourceDownload,
     triggerMarkdownDownload,

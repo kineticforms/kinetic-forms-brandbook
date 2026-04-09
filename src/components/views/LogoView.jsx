@@ -70,7 +70,7 @@ function BannerPreview({ width, height, bgColor, particleRgb, isLight, label, lo
   );
 }
 
-export default function LogoView({ downloadStatus, triggerAssetsDownload, triggerLogoDownload, triggerSocialDownload }) {
+export default function LogoView({ downloadStatus, triggerAssetsDownload, triggerLogoDownload, triggerSocialDownload, triggerAnimatedDownload }) {
   const [posLogoSvg, setPosLogoSvg] = useState(null);
   const [negLogoSvg, setNegLogoSvg] = useState(null);
   const [posLockupSvg, setPosLockupSvg] = useState(null);
@@ -218,36 +218,6 @@ export default function LogoView({ downloadStatus, triggerAssetsDownload, trigge
               label="Negative — Banner"
             />
           </div>
-          <div className="space-y-4 mb-8">
-            <div className="relative rounded-2xl overflow-hidden">
-              <AnimatedWaveCanvas
-                aspectRatio="1500/500"
-                bgColor="#ffffff"
-                particleRgb="113, 113, 122"
-                logoSvg={posLockupSvg}
-                logoScale={0.4}
-                logoAspectRatio={LOCKUP_RATIO}
-                verticalShift={-0.18}
-              />
-              <span className="absolute top-4 left-5 text-xs font-bold tracking-widest uppercase text-zinc-400 pointer-events-none">
-                Positive — Banner (Animated)
-              </span>
-            </div>
-            <div className="relative rounded-2xl overflow-hidden">
-              <AnimatedWaveCanvas
-                aspectRatio="1500/500"
-                bgColor="#000000"
-                particleRgb="161, 161, 170"
-                logoSvg={negLockupSvg}
-                logoScale={0.4}
-                logoAspectRatio={LOCKUP_RATIO}
-                verticalShift={-0.18}
-              />
-              <span className="absolute top-4 left-5 text-xs font-bold tracking-widest uppercase text-zinc-500 pointer-events-none">
-                Negative — Banner (Animated)
-              </span>
-            </div>
-          </div>
           <div className="grid md:grid-cols-2 gap-8">
             <BannerPreview
               width={1080}
@@ -266,44 +236,98 @@ export default function LogoView({ downloadStatus, triggerAssetsDownload, trigge
               label="Negative — Post"
             />
           </div>
-          <div className="grid md:grid-cols-2 gap-8 mt-8">
-            <div className="relative rounded-2xl overflow-hidden">
-              <AnimatedWaveCanvas
-                aspectRatio="1/1"
-                bgColor="#ffffff"
-                particleRgb="113, 113, 122"
-                logoSvg={posLogoSvg}
-                logoScale={0.3}
-              />
-              <span className="absolute top-4 left-5 text-xs font-bold tracking-widest uppercase text-zinc-400 pointer-events-none">
-                Positive — Post (Animated)
-              </span>
-            </div>
-            <div className="relative rounded-2xl overflow-hidden">
-              <AnimatedWaveCanvas
-                aspectRatio="1/1"
-                bgColor="#000000"
-                particleRgb="161, 161, 170"
-                logoSvg={negLogoSvg}
-                logoScale={0.3}
-              />
-              <span className="absolute top-4 left-5 text-xs font-bold tracking-widest uppercase text-zinc-500 pointer-events-none">
-                Negative — Post (Animated)
-              </span>
-            </div>
+        </div>
+
+      <div className="space-y-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <h3 className="text-sm font-bold tracking-widest uppercase text-zinc-400 mb-3">
+              Animated Assets
+            </h3>
+            <p className="text-zinc-500 max-w-2xl">
+              Looping wave animations for banners and posts, plus a
+              hover-triggered Discord profile icon with a wave-surge
+              effect. All exported as GIFs in the animated assets download.
+            </p>
+          </div>
+          <div className="shrink-0 hide-in-export">
+            <DownloadButton
+              status={downloadStatus.animated}
+              onClick={triggerAnimatedDownload}
+              idleLabel="Animated Assets (GIF)"
+              downloadingLabel="Generating GIFs..."
+              successLabel="Done"
+              variant="secondary"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <div className="relative rounded-2xl overflow-hidden">
+            <AnimatedWaveCanvas
+              aspectRatio="1500/500"
+              bgColor="#ffffff"
+              particleRgb="113, 113, 122"
+              logoSvg={posLockupSvg}
+              logoScale={0.4}
+              logoAspectRatio={LOCKUP_RATIO}
+              verticalShift={-0.18}
+            />
+            <span className="absolute top-4 left-5 text-xs font-bold tracking-widest uppercase text-zinc-400 pointer-events-none">
+              Positive — Banner
+            </span>
+          </div>
+          <div className="relative rounded-2xl overflow-hidden">
+            <AnimatedWaveCanvas
+              aspectRatio="1500/500"
+              bgColor="#000000"
+              particleRgb="161, 161, 170"
+              logoSvg={negLockupSvg}
+              logoScale={0.4}
+              logoAspectRatio={LOCKUP_RATIO}
+              verticalShift={-0.18}
+            />
+            <span className="absolute top-4 left-5 text-xs font-bold tracking-widest uppercase text-zinc-500 pointer-events-none">
+              Negative — Banner
+            </span>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="relative rounded-2xl overflow-hidden">
+            <AnimatedWaveCanvas
+              aspectRatio="1/1"
+              bgColor="#ffffff"
+              particleRgb="113, 113, 122"
+              logoSvg={posLogoSvg}
+              logoScale={0.3}
+            />
+            <span className="absolute top-4 left-5 text-xs font-bold tracking-widest uppercase text-zinc-400 pointer-events-none">
+              Positive — Post
+            </span>
+          </div>
+          <div className="relative rounded-2xl overflow-hidden">
+            <AnimatedWaveCanvas
+              aspectRatio="1/1"
+              bgColor="#000000"
+              particleRgb="161, 161, 170"
+              logoSvg={negLogoSvg}
+              logoScale={0.3}
+            />
+            <span className="absolute top-4 left-5 text-xs font-bold tracking-widest uppercase text-zinc-500 pointer-events-none">
+              Negative — Post
+            </span>
           </div>
         </div>
 
         <div>
-          <h3 className="text-sm font-bold tracking-widest uppercase text-zinc-400 mb-6">
+          <h4 className="text-xs font-bold tracking-widest uppercase text-zinc-400 mb-4">
             Discord Profile Icon
-          </h3>
-          <p className="text-zinc-500 mb-8 max-w-2xl">
-            Profile icons for Discord in static and animated variants. The
-            animated version features a wave crest that sweeps across the icon
-            before settling to a resting state — hover to preview. Animated
-            GIFs for Discord Nitro profile pictures are included in the
-            asset kit download.
+          </h4>
+          <p className="text-zinc-500 mb-6 max-w-2xl text-sm">
+            Static and animated variants — the animated version plays a
+            wave-surge on hover. Animated GIFs for Discord Nitro are
+            included in the download.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-2xl">
             <div className="space-y-3">
@@ -356,6 +380,7 @@ export default function LogoView({ downloadStatus, triggerAssetsDownload, trigge
             </div>
           </div>
         </div>
+      </div>
 
       <div className="grid md:grid-cols-2 gap-12 pt-8 border-t border-zinc-200">
         <div className="space-y-4">

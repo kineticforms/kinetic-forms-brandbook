@@ -21,16 +21,6 @@ export default function DiscordAnimatedIcon({
   logoScale = 0.35,
 }) {
   const canvasRef = useRef(null);
-  const logoRef = useRef(null);
-
-  useEffect(() => {
-    if (!logoSvg) return;
-    let cancelled = false;
-    svgToImage(logoSvg).then((img) => {
-      if (!cancelled) logoRef.current = img;
-    });
-    return () => { cancelled = true; };
-  }, [logoSvg]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -39,6 +29,8 @@ export default function DiscordAnimatedIcon({
     let animId;
     let surgeStart = null;
     let animating = false;
+    let logoImg = null;
+    let cancelled = false;
 
     const getSize = () => {
       const w = canvas.offsetWidth;
@@ -61,14 +53,23 @@ export default function DiscordAnimatedIcon({
       renderWaveSurgeFrame(ctx, w, h, elapsed, {
         bgColor,
         particleRgb,
-        logoImg: logoRef.current,
+        logoImg,
         logoScale,
         surgeDuration: SURGE_DURATION,
       });
       ctx.restore();
     };
 
-    // Initial static resting frame
+    // Load logo, then redraw resting frame with it
+    if (logoSvg) {
+      svgToImage(logoSvg).then((img) => {
+        if (cancelled) return;
+        logoImg = img;
+        if (!animating) drawFrame(null);
+      });
+    }
+
+    // Initial resting frame (wave only, logo draws once loaded)
     drawFrame(null);
 
     const loop = (timestamp) => {
@@ -100,11 +101,12 @@ export default function DiscordAnimatedIcon({
     window.addEventListener("resize", onResize);
 
     return () => {
+      cancelled = true;
       cancelAnimationFrame(animId);
       canvas.removeEventListener("mouseenter", onEnter);
       window.removeEventListener("resize", onResize);
     };
-  }, [bgColor, particleRgb, logoScale]);
+  }, [bgColor, particleRgb, logoScale, logoSvg]);
 
   return (
     <canvas
